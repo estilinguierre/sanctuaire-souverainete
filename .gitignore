@@ -1,0 +1,44 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Dépendances (si vous ajoutez npm plus tard)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Fichiers de build
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Temporaires
+tmp/
+temp/
+*.tmp
+
+# Backups
+*.bak
+*.backup

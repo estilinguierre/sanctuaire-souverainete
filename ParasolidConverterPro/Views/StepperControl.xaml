@@ -1,0 +1,100 @@
+<UserControl x:Class="ParasolidConverterPro.Views.StepperControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <!-- Helper template for a step node + optional connector -->
+        <StackPanel.Resources>
+            <!-- Step circle DataTemplate not used — inline below for clarity -->
+        </StackPanel.Resources>
+
+        <!-- ── Step 1 : Fichiers ─────────────────────────────────────────── -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="30" Height="30">
+                <Ellipse Fill="{Binding CurrentStep,
+                    Converter={StaticResource StepFill}, ConverterParameter='1'}"/>
+                <TextBlock Text="1" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Foreground="{Binding CurrentStep,
+                               Converter={StaticResource StepText}, ConverterParameter='1'}"/>
+            </Grid>
+            <TextBlock Text="Fichiers" Margin="7,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{Binding CurrentStep,
+                           Converter={StaticResource StepText}, ConverterParameter='1'}"/>
+        </StackPanel>
+
+        <Rectangle Width="44" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="10,0"/>
+
+        <!-- ── Step 2 : Analyse ─────────────────────────────────────────── -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="30" Height="30">
+                <Ellipse Fill="{Binding CurrentStep,
+                    Converter={StaticResource StepFill}, ConverterParameter='2'}"/>
+                <TextBlock Text="2" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Foreground="{Binding CurrentStep,
+                               Converter={StaticResource StepText}, ConverterParameter='2'}"/>
+            </Grid>
+            <TextBlock Text="Analyse" Margin="7,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{Binding CurrentStep,
+                           Converter={StaticResource StepText}, ConverterParameter='2'}"/>
+        </StackPanel>
+
+        <Rectangle Width="44" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="10,0"/>
+
+        <!-- ── Step 3 : Options ─────────────────────────────────────────── -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="30" Height="30">
+                <Ellipse Fill="{Binding CurrentStep,
+                    Converter={StaticResource StepFill}, ConverterParameter='3'}"/>
+                <TextBlock Text="3" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Foreground="{Binding CurrentStep,
+                               Converter={StaticResource StepText}, ConverterParameter='3'}"/>
+            </Grid>
+            <TextBlock Text="Options" Margin="7,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{Binding CurrentStep,
+                           Converter={StaticResource StepText}, ConverterParameter='3'}"/>
+        </StackPanel>
+
+        <Rectangle Width="44" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="10,0"/>
+
+        <!-- ── Step 4 : Conversion ──────────────────────────────────────── -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="30" Height="30">
+                <Ellipse Fill="{Binding CurrentStep,
+                    Converter={StaticResource StepFill}, ConverterParameter='4'}"/>
+                <TextBlock Text="4" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Foreground="{Binding CurrentStep,
+                               Converter={StaticResource StepText}, ConverterParameter='4'}"/>
+            </Grid>
+            <TextBlock Text="Conversion" Margin="7,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{Binding CurrentStep,
+                           Converter={StaticResource StepText}, ConverterParameter='4'}"/>
+        </StackPanel>
+
+        <Rectangle Width="44" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="10,0"/>
+
+        <!-- ── Step 5 : Résultats ───────────────────────────────────────── -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="30" Height="30">
+                <Ellipse Fill="{Binding CurrentStep,
+                    Converter={StaticResource StepFill}, ConverterParameter='5'}"/>
+                <TextBlock Text="5" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Foreground="{Binding CurrentStep,
+                               Converter={StaticResource StepText}, ConverterParameter='5'}"/>
+            </Grid>
+            <TextBlock Text="Résultats" Margin="7,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{Binding CurrentStep,
+                           Converter={StaticResource StepText}, ConverterParameter='5'}"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

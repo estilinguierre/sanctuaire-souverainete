@@ -1,0 +1,156 @@
+<UserControl x:Class="ParasolidConverterPro.Views.OptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:ParasolidConverterPro.Models">
+
+    <Grid Background="{StaticResource BrushBg}" Margin="24,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ── Left: Options ────────────────────────────────────────────── -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,16,0">
+            <StackPanel>
+                <TextBlock Text="Paramètres de conversion" Style="{StaticResource TextTitle}"
+                           Margin="0,0,0,4"/>
+                <TextBlock Text="Configurez le moteur SolidWorks et les options de sortie."
+                           Style="{StaticResource TextSubtitle}" Margin="0,0,0,16"/>
+
+                <!-- Output directory -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="DOSSIER DE SORTIE" Style="{StaticResource TextLabel}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding Options.OutputDirectory, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="0,0,8,0"
+                                     FontFamily="Consolas, Courier New"
+                                     ToolTip="Chemin du dossier de sortie"/>
+                            <Button Grid.Column="1" Content="Parcourir…"
+                                    Style="{StaticResource ButtonSecondary}"
+                                    Command="{Binding BrowseOutputDirCommand}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Format sortie -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="FORMAT DE SORTIE" Style="{StaticResource TextLabel}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <RadioButton Content="Auto-détecté" GroupName="outfmt" IsChecked="True"
+                                         Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,16,0"/>
+                            <RadioButton Content="Pièce (.sldprt)" GroupName="outfmt"
+                                         Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,16,0"/>
+                            <RadioButton Content="Assemblage (.sldasm)" GroupName="outfmt"
+                                         Foreground="{StaticResource BrushTextPrimary}"/>
+                        </StackPanel>
+                        <TextBlock Text="Auto : détecté selon le nombre de corps solides."
+                                   FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                                   Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Version SolidWorks -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="VERSION SOLIDWORKS CIBLE" Style="{StaticResource TextLabel}"/>
+                        <ComboBox SelectedIndex="3" Margin="0,8,0,0">
+                            <ComboBoxItem Content="SolidWorks 2021"/>
+                            <ComboBoxItem Content="SolidWorks 2022"/>
+                            <ComboBoxItem Content="SolidWorks 2023"/>
+                            <ComboBoxItem Content="SolidWorks 2024"/>
+                            <ComboBoxItem Content="SolidWorks 2025"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- Options avancées -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="OPTIONS AVANCÉES" Style="{StaticResource TextLabel}"/>
+                        <CheckBox Content="Importer en solide (recommandé)"
+                                  IsChecked="{Binding Options.ImportAsSolid}"/>
+                        <CheckBox Content="Guérison géométrique automatique"
+                                  IsChecked="{Binding Options.HealGeometry}"/>
+                        <CheckBox Content="Exécuter les diagnostics post-conversion"
+                                  IsChecked="{Binding Options.RunDiagnostics}"/>
+                        <CheckBox Content="Écraser les fichiers existants"
+                                  IsChecked="{Binding Options.OverwriteExisting}"/>
+                        <CheckBox Content="Générer le rapport Markdown après conversion"
+                                  IsChecked="{Binding Options.GenerateReport}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ── Right: Summary + Launch ──────────────────────────────────── -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Conversion summary -->
+            <Border Grid.Row="0" Style="{StaticResource Card}" Margin="0,32,0,10">
+                <StackPanel>
+                    <TextBlock Text="PRÊT À CONVERTIR" Style="{StaticResource TextLabel}"/>
+                    <Separator/>
+                    <Grid Margin="0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Fichiers à traiter" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding FileCountDisplay}"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextPrimary}"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Moteur" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ServiceName}"
+                                   FontSize="11" Foreground="{StaticResource BrushAccent}"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Rapport" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding Options.GenerateReport, StringFormat='{}{0}'}"
+                                   FontSize="11"
+                                   Foreground="{StaticResource BrushTextSecondary}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Launch -->
+            <Button Grid.Row="1" Content="Lancer la conversion ▶"
+                    Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding StartConversionCommand}"
+                    HorizontalAlignment="Stretch" Padding="0,16"
+                    FontSize="14"/>
+
+            <!-- Back -->
+            <Button Grid.Row="2" Content="← Retour aux fichiers"
+                    Style="{StaticResource ButtonSecondary}"
+                    Command="{Binding GoToFileSelectionCommand}"
+                    HorizontalAlignment="Stretch" Padding="0,10"
+                    Margin="0,8,0,0"/>
+        </Grid>
+    </Grid>
+</UserControl>

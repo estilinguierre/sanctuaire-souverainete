@@ -1,0 +1,236 @@
+<UserControl x:Class="ParasolidConverterPro.Views.FileSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:ParasolidConverterPro.Models">
+
+    <Grid Background="{StaticResource BrushBg}" Margin="24,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ── Left: File list ──────────────────────────────────────────── -->
+        <Grid Grid.Column="0" Margin="0,0,16,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                <TextBlock Text="Sélection des fichiers" Style="{StaticResource TextTitle}"/>
+                <TextBlock Text="Ajoutez des fichiers Parasolid (.x_t, .x_b) ou des dossiers complets."
+                           Style="{StaticResource TextSubtitle}" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- File list card -->
+            <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <!-- Empty drop zone: use Grid + Rectangle for dashed effect -->
+                    <Grid Visibility="{Binding HasFiles, Converter={StaticResource InverseBoolToVisibility}}"
+                          Margin="24">
+                        <Rectangle Stroke="{StaticResource BrushBorder}" StrokeThickness="2"
+                                   StrokeDashArray="6,3" Fill="Transparent"
+                                   RadiusX="8" RadiusY="8"/>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Margin="0,40">
+                            <TextBlock Text="📂" FontSize="48" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Glissez vos fichiers ici"
+                                       FontSize="16" FontWeight="SemiBold"
+                                       Foreground="{StaticResource BrushTextSecondary}"
+                                       HorizontalAlignment="Center" Margin="0,12,0,4"/>
+                            <TextBlock Text=".x_t  ·  .x_b  ·  dossiers"
+                                       Foreground="{StaticResource BrushTextMuted}"
+                                       HorizontalAlignment="Center" FontSize="13"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- File list -->
+                    <ListBox ItemsSource="{Binding Files}"
+                             Background="Transparent" BorderThickness="0"
+                             Visibility="{Binding HasFiles, Converter={StaticResource BoolToVisibility}}"
+                             VirtualizingPanel.IsVirtualizing="True"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             Padding="6">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,2"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="5" Padding="4">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource BrushSurface2}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#2A0078D4"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:ParasolidFile}">
+                                <Grid Margin="4,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="6"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="28"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Status stripe -->
+                                    <Rectangle Grid.Column="0" Width="4" CornerRadius="2"
+                                               VerticalAlignment="Stretch" Margin="0,2"
+                                               Fill="{Binding Status, Converter={StaticResource FileStatusToColor}}"/>
+
+                                    <!-- File info -->
+                                    <StackPanel Grid.Column="1" Margin="10,3">
+                                        <TextBlock Text="{Binding FileName}" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource BrushTextPrimary}"
+                                                   FontSize="13"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                            <TextBlock Text="{Binding FileSizeDisplay}"
+                                                       Foreground="{StaticResource BrushTextMuted}" FontSize="11"/>
+                                            <TextBlock Text=" · " Foreground="{StaticResource BrushTextMuted}" FontSize="11"/>
+                                            <TextBlock Text="{Binding FileType}"
+                                                       Foreground="{StaticResource BrushTextMuted}" FontSize="11"/>
+                                            <TextBlock Foreground="{StaticResource BrushTextMuted}" FontSize="11"
+                                                       Visibility="{Binding BodyCount, Converter={StaticResource IntToVisibility}}">
+                                                <Run Text=" · "/>
+                                                <Run Text="{Binding BodyCount}"/>
+                                                <Run Text=" corps"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- Status badge -->
+                                    <Border Grid.Column="2" CornerRadius="4" Padding="6,2" Margin="4,0"
+                                            VerticalAlignment="Center">
+                                        <Border.Background>
+                                            <SolidColorBrush Opacity="0.15"
+                                                Color="{Binding Status, Converter={StaticResource FileStatusToColor}}"/>
+                                        </Border.Background>
+                                        <TextBlock Text="{Binding Status}"
+                                                   Foreground="{Binding Status, Converter={StaticResource FileStatusToColor}}"
+                                                   FontSize="10" FontWeight="SemiBold"/>
+                                    </Border>
+
+                                    <!-- Assembly badge -->
+                                    <Border Grid.Column="3" CornerRadius="4" Padding="5,2" Margin="2,0"
+                                            Background="#1A0078D4" VerticalAlignment="Center"
+                                            Visibility="{Binding IsAssembly, Converter={StaticResource BoolToVisibility}}">
+                                        <TextBlock Text="ASM" FontSize="10" FontWeight="Bold"
+                                                   Foreground="{StaticResource BrushAccent}"/>
+                                    </Border>
+
+                                    <!-- Remove button -->
+                                    <Button Grid.Column="4" Content="✕" Width="22" Height="22"
+                                            FontSize="10" Padding="0"
+                                            Background="Transparent" BorderThickness="0"
+                                            Foreground="{StaticResource BrushTextMuted}"
+                                            Cursor="Hand" VerticalAlignment="Center"
+                                            Command="{Binding DataContext.RemoveFileCommand,
+                                                RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#1AF44336"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource BrushError}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <!-- Action buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Content="+ Fichiers" Style="{StaticResource ButtonSecondary}"
+                        Command="{Binding AddFilesCommand}" Margin="0,0,8,0"/>
+                <Button Content="+ Dossier" Style="{StaticResource ButtonSecondary}"
+                        Command="{Binding AddFolderCommand}" Margin="0,0,8,0"/>
+                <Button Content="Vider la liste" Style="{StaticResource ButtonDanger}"
+                        Command="{Binding ClearFilesCommand}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- ── Right: Summary + Analyse ────────────────────────────────── -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Stats card -->
+            <Border Grid.Row="0" Style="{StaticResource Card}" Margin="0,32,0,10">
+                <StackPanel>
+                    <TextBlock Text="RÉSUMÉ" Style="{StaticResource TextLabel}"/>
+                    <Separator/>
+                    <Grid Margin="0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Fichiers sélectionnés"
+                                   Foreground="{StaticResource BrushTextSecondary}" FontSize="12"/>
+                        <TextBlock Grid.Column="1" Text="{Binding FileCount}"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontWeight="Bold" FontSize="16"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Analyse CTA -->
+            <Button Grid.Row="1" Content="Analyser les fichiers →"
+                    Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding AnalyzeFilesCommand}"
+                    HorizontalAlignment="Stretch" Padding="0,14"/>
+
+            <!-- Help card -->
+            <Border Grid.Row="2" Style="{StaticResource Card}" Margin="0,10,0,0" VerticalAlignment="Top">
+                <StackPanel>
+                    <TextBlock Text="FORMATS SUPPORTÉS" Style="{StaticResource TextLabel}"/>
+                    <Separator/>
+                    <TextBlock Text=".x_t — Parasolid texte" FontSize="12"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,4"/>
+                    <TextBlock Text=".x_b — Parasolid binaire" FontSize="12"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,4"/>
+                    <Separator Margin="0,8"/>
+                    <TextBlock Text="L'analyse détecte :" FontSize="12"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,4"/>
+                    <TextBlock Text="• Version du schéma Parasolid" FontSize="11"
+                               Foreground="{StaticResource BrushTextMuted}" Margin="8,2"/>
+                    <TextBlock Text="• Nombre de corps solides" FontSize="11"
+                               Foreground="{StaticResource BrushTextMuted}" Margin="8,2"/>
+                    <TextBlock Text="• Pièce unique ou assemblage" FontSize="11"
+                               Foreground="{StaticResource BrushTextMuted}" Margin="8,2"/>
+                    <TextBlock Text="• Surfaces et arêtes" FontSize="11"
+                               Foreground="{StaticResource BrushTextMuted}" Margin="8,2"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

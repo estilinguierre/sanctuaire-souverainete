@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ParasolidConverterPro.Converters">
+
+    <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibility"/>
+    <local:FileStatusToColorConverter x:Key="FileStatusToColor"/>
+    <local:LogLevelToColorConverter x:Key="LogLevelToColor"/>
+    <local:ConversionStatusToColorConverter x:Key="ConversionStatusToColor"/>
+    <local:EnumToStringConverter x:Key="EnumToString"/>
+
+</ResourceDictionary>

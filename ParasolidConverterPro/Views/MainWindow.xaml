@@ -1,0 +1,142 @@
+<Window x:Class="ParasolidConverterPro.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:ParasolidConverterPro.Views"
+        xmlns:vm="clr-namespace:ParasolidConverterPro.ViewModels"
+        xmlns:models="clr-namespace:ParasolidConverterPro.Models"
+        Title="Parasolid Converter Pro"
+        Width="1280" Height="800"
+        MinWidth="900" MinHeight="600"
+        Background="{StaticResource BrushBg}"
+        WindowStartupLocation="CenterScreen"
+        AllowDrop="True">
+
+    <Window.DataContext>
+        <Binding Source="{x:Static Application.Current}" Path=".(local:App.ConversionViewModel)"
+                 xmlns:local="clr-namespace:ParasolidConverterPro"/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>    <!-- Header -->
+            <RowDefinition Height="Auto"/>  <!-- Stepper -->
+            <RowDefinition Height="*"/>     <!-- Content -->
+            <RowDefinition Height="220"/>   <!-- Log panel -->
+            <RowDefinition Height="28"/>    <!-- Status bar -->
+        </Grid.RowDefinitions>
+
+        <!-- ══ Header ══════════════════════════════════════════════════════ -->
+        <Border Grid.Row="0" Background="{StaticResource BrushSurface}"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo + Title -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="32" Height="32" CornerRadius="6"
+                            Background="{StaticResource BrushSWBlue}" Margin="0,0,10,0">
+                        <TextBlock Text="P" FontSize="18" FontWeight="Bold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Parasolid Converter Pro"
+                               FontSize="15" FontWeight="SemiBold"
+                               Foreground="{StaticResource BrushTextPrimary}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Simulated mode badge -->
+                <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Visibility="{Binding IsSimulatedMode, Converter={StaticResource BoolToVisibility}}"
+                        Background="#1AFFC107" BorderBrush="{StaticResource BrushWarning}"
+                        BorderThickness="1" CornerRadius="4" Padding="8,3">
+                    <TextBlock Text="MODE SIMULATION — Phase 1" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource BrushWarning}"/>
+                </Border>
+
+                <!-- Service info -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="8" Height="8" Margin="0,0,6,0"
+                             Fill="{StaticResource BrushSuccess}"/>
+                    <TextBlock Text="{Binding ServiceName}" FontSize="11"
+                               Foreground="{StaticResource BrushTextSecondary}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ══ Stepper ══════════════════════════════════════════════════════ -->
+        <Border Grid.Row="1" Background="{StaticResource BrushSurface}"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1"
+                Padding="24,12">
+            <views:StepperControl/>
+        </Border>
+
+        <!-- ══ Content area ═════════════════════════════════════════════════ -->
+        <Grid Grid.Row="2" Margin="0">
+            <!-- Home -->
+            <views:HomeView
+                Visibility="{Binding IsStepHome, Converter={StaticResource BoolToVisibility}}"/>
+            <!-- File Selection -->
+            <views:FileSelectionView
+                Visibility="{Binding IsStepFileSelection, Converter={StaticResource BoolToVisibility}}"/>
+            <!-- Options -->
+            <views:OptionsView
+                Visibility="{Binding IsStepOptions, Converter={StaticResource BoolToVisibility}}"/>
+            <!-- Converting -->
+            <views:ConvertingView
+                Visibility="{Binding IsStepConverting, Converter={StaticResource BoolToVisibility}}"/>
+            <!-- Results -->
+            <views:ResultsView
+                Visibility="{Binding IsStepResults, Converter={StaticResource BoolToVisibility}}"/>
+        </Grid>
+
+        <!-- ══ Log panel ════════════════════════════════════════════════════ -->
+        <Border Grid.Row="3" Background="{StaticResource BrushSurface}"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,1,0,0">
+            <views:LogPanelView DataContext="{x:Static local:App.LogViewModel}"
+                                xmlns:local="clr-namespace:ParasolidConverterPro"/>
+        </Border>
+
+        <!-- ══ Status bar ═══════════════════════════════════════════════════ -->
+        <Border Grid.Row="4" Background="{StaticResource BrushSWBlue}"
+                Padding="16,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Text="{Binding BusyMessage, FallbackValue='Prêt'}"
+                           Foreground="White" FontSize="11"
+                           VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding FileCountDisplay}"
+                           Foreground="#AAFFFFFF" FontSize="11"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- ══ Busy overlay ═════════════════════════════════════════════════ -->
+        <Grid Grid.Row="2" Background="#AA000000"
+              Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding BusyMessage}" FontSize="16"
+                           Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                <ProgressBar Width="300" Height="8" IsIndeterminate="False"
+                             Value="{Binding ProgressValue}" Maximum="100"
+                             Foreground="{StaticResource BrushAccent}"/>
+                <TextBlock Text="{Binding ProgressValue, StringFormat='{}{0}%'}"
+                           Foreground="{StaticResource BrushTextSecondary}"
+                           HorizontalAlignment="Center" FontSize="12" Margin="0,8,0,16"/>
+                <Button Content="Annuler" Style="{StaticResource ButtonDanger}"
+                        Command="{Binding CancelConversionCommand}"
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,114 @@
+<UserControl x:Class="ParasolidConverterPro.Views.StepperControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ParasolidConverterPro.ViewModels">
+
+    <UserControl.Resources>
+        <Style x:Key="StepDot" TargetType="Ellipse">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Stroke" Value="{StaticResource BrushBorder}"/>
+            <Setter Property="StrokeThickness" Value="2"/>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <!-- Each step -->
+        <StackPanel.Resources>
+            <DataTemplate x:Key="StepItem">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Circle -->
+                    <Grid Width="28" Height="28">
+                        <Ellipse Width="28" Height="28"/>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   FontSize="12" FontWeight="SemiBold"/>
+                    </Grid>
+                    <!-- Label -->
+                    <TextBlock Margin="8,0,24,0" VerticalAlignment="Center" FontSize="12"/>
+                    <!-- Connector line -->
+                    <Rectangle Width="40" Height="2" VerticalAlignment="Center"/>
+                </StackPanel>
+            </DataTemplate>
+        </StackPanel.Resources>
+
+        <!-- Step 1: Fichiers -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="28" Height="28">
+                <Ellipse Width="28" Height="28">
+                    <Ellipse.Fill>
+                        <SolidColorBrush>
+                            <SolidColorBrush.Color>
+                                <MultiBinding>
+                                    <MultiBinding.Converter>
+                                        <local:StepColorMultiConverter xmlns:local="clr-namespace:ParasolidConverterPro.Converters" StepIndex="1"/>
+                                    </MultiBinding.Converter>
+                                    <Binding Path="CurrentStep"/>
+                                </MultiBinding>
+                            </SolidColorBrush.Color>
+                        </SolidColorBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           FontSize="12" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <TextBlock Text="Fichiers" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{StaticResource BrushTextSecondary}"/>
+        </StackPanel>
+
+        <Rectangle Width="48" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="12,0"/>
+
+        <!-- Step 2: Analyse -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="28" Height="28">
+                <Ellipse Width="28" Height="28" Fill="{StaticResource BrushBorder}"/>
+                <TextBlock Text="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           FontSize="12" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <TextBlock Text="Analyse" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{StaticResource BrushTextSecondary}"/>
+        </StackPanel>
+
+        <Rectangle Width="48" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="12,0"/>
+
+        <!-- Step 3: Options -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="28" Height="28">
+                <Ellipse Width="28" Height="28" Fill="{StaticResource BrushBorder}"/>
+                <TextBlock Text="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           FontSize="12" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <TextBlock Text="Options" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{StaticResource BrushTextSecondary}"/>
+        </StackPanel>
+
+        <Rectangle Width="48" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="12,0"/>
+
+        <!-- Step 4: Conversion -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="28" Height="28">
+                <Ellipse Width="28" Height="28" Fill="{StaticResource BrushBorder}"/>
+                <TextBlock Text="4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           FontSize="12" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <TextBlock Text="Conversion" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{StaticResource BrushTextSecondary}"/>
+        </StackPanel>
+
+        <Rectangle Width="48" Height="2" Fill="{StaticResource BrushBorder}"
+                   VerticalAlignment="Center" Margin="12,0"/>
+
+        <!-- Step 5: Résultats -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Width="28" Height="28">
+                <Ellipse Width="28" Height="28" Fill="{StaticResource BrushBorder}"/>
+                <TextBlock Text="5" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           FontSize="12" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <TextBlock Text="Résultats" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
+                       Foreground="{StaticResource BrushTextSecondary}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

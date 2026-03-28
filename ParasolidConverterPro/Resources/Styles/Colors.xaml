@@ -1,0 +1,43 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ── SolidWorks-inspired dark palette ───────────────────────────────── -->
+    <Color x:Key="ColorBg">#FF1E1E2E</Color>
+    <Color x:Key="ColorSurface">#FF2A2A3E</Color>
+    <Color x:Key="ColorSurface2">#FF313150</Color>
+    <Color x:Key="ColorBorder">#FF3A3A5C</Color>
+    <Color x:Key="ColorAccent">#FF0078D4</Color>
+    <Color x:Key="ColorAccentHover">#FF1A8AE0</Color>
+    <Color x:Key="ColorAccentPressed">#FF006CC0</Color>
+    <Color x:Key="ColorSuccess">#FF4CAF50</Color>
+    <Color x:Key="ColorWarning">#FFFFC107</Color>
+    <Color x:Key="ColorError">#FFF44336</Color>
+    <Color x:Key="ColorInfo">#FF2196F3</Color>
+    <Color x:Key="ColorTextPrimary">#FFE0E0F0</Color>
+    <Color x:Key="ColorTextSecondary">#FF9090B0</Color>
+    <Color x:Key="ColorTextMuted">#FF606080</Color>
+    <Color x:Key="ColorStepActive">#FF0078D4</Color>
+    <Color x:Key="ColorStepDone">#FF4CAF50</Color>
+    <Color x:Key="ColorStepPending">#FF3A3A5C</Color>
+
+    <!-- SolidWorks brand blue -->
+    <Color x:Key="ColorSWBlue">#FF005FAD</Color>
+    <Color x:Key="ColorSWOrange">#FFFF6B00</Color>
+
+    <SolidColorBrush x:Key="BrushBg" Color="{StaticResource ColorBg}"/>
+    <SolidColorBrush x:Key="BrushSurface" Color="{StaticResource ColorSurface}"/>
+    <SolidColorBrush x:Key="BrushSurface2" Color="{StaticResource ColorSurface2}"/>
+    <SolidColorBrush x:Key="BrushBorder" Color="{StaticResource ColorBorder}"/>
+    <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}"/>
+    <SolidColorBrush x:Key="BrushAccentHover" Color="{StaticResource ColorAccentHover}"/>
+    <SolidColorBrush x:Key="BrushSuccess" Color="{StaticResource ColorSuccess}"/>
+    <SolidColorBrush x:Key="BrushWarning" Color="{StaticResource ColorWarning}"/>
+    <SolidColorBrush x:Key="BrushError" Color="{StaticResource ColorError}"/>
+    <SolidColorBrush x:Key="BrushInfo" Color="{StaticResource ColorInfo}"/>
+    <SolidColorBrush x:Key="BrushTextPrimary" Color="{StaticResource ColorTextPrimary}"/>
+    <SolidColorBrush x:Key="BrushTextSecondary" Color="{StaticResource ColorTextSecondary}"/>
+    <SolidColorBrush x:Key="BrushTextMuted" Color="{StaticResource ColorTextMuted}"/>
+    <SolidColorBrush x:Key="BrushSWBlue" Color="{StaticResource ColorSWBlue}"/>
+    <SolidColorBrush x:Key="BrushSWOrange" Color="{StaticResource ColorSWOrange}"/>
+
+</ResourceDictionary>

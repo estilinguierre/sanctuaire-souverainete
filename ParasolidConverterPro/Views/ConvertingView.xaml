@@ -1,0 +1,63 @@
+<UserControl x:Class="ParasolidConverterPro.Views.ConvertingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:ParasolidConverterPro.Converters">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource BrushBg}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="560">
+
+            <!-- Title -->
+            <TextBlock Text="Conversion en cours…" Style="{StaticResource TextTitle}"
+                       HorizontalAlignment="Center" Margin="0,0,0,8"/>
+            <TextBlock Text="{Binding BatchStatus, FallbackValue='Initialisation…'}"
+                       Style="{StaticResource TextSubtitle}"
+                       HorizontalAlignment="Center" Margin="0,0,0,32"/>
+
+            <!-- Progress ring placeholder -->
+            <Border Width="80" Height="80" CornerRadius="40"
+                    BorderBrush="{StaticResource BrushAccent}" BorderThickness="4"
+                    HorizontalAlignment="Center" Margin="0,0,0,24">
+                <TextBlock Text="{Binding BatchProgress, StringFormat='{}{0}%'}"
+                           FontSize="18" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextPrimary}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- Main progress bar -->
+            <ProgressBar Value="{Binding BatchProgress}" Maximum="100"
+                         Height="8" Margin="0,0,0,24">
+                <ProgressBar.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FF005FAD" Offset="0"/>
+                        <GradientStop Color="#FF0078D4" Offset="1"/>
+                    </LinearGradientBrush>
+                </ProgressBar.Foreground>
+            </ProgressBar>
+
+            <!-- File-level progress -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,24">
+                <StackPanel>
+                    <TextBlock Text="FICHIER EN COURS" Style="{StaticResource TextLabel}"/>
+                    <TextBlock Text="{Binding BatchStatus, FallbackValue='—'}"
+                               Style="{StaticResource TextMono}" Margin="0,4"/>
+                    <ProgressBar Value="{Binding ProgressValue}" Maximum="100"
+                                 Margin="0,8,0,0" Height="4"
+                                 Foreground="{StaticResource BrushSWOrange}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Cancel button -->
+            <Button Content="Annuler la conversion" Style="{StaticResource ButtonDanger}"
+                    Command="{Binding CancelConversionCommand}"
+                    HorizontalAlignment="Center" Padding="24,10"/>
+
+            <TextBlock Text="SolidWorks reste disponible pendant la conversion."
+                       FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                       HorizontalAlignment="Center" Margin="0,16,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

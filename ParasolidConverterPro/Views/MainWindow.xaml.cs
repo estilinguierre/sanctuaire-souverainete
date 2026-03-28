@@ -14,7 +14,8 @@ namespace ParasolidConverterPro.Views
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
-                    await App.ConversionViewModel.HandleDroppedFilesAsync(paths);
+                    if (paths != null)
+                        await App.ConversionViewModel.HandleDroppedFilesAsync(paths);
                 }
             };
 

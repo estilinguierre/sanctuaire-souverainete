@@ -10,14 +10,16 @@ namespace ParasolidConverterPro.Views
             InitializeComponent();
             DataContext = App.LogViewModel;
 
-            // Auto-scroll when new entries arrive
-            App.LogService.Entries.CollectionChanged += (_, e) =>
+            App.LogService.Entries.CollectionChanged += OnEntriesChanged;
+        }
+
+        private void OnEntriesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add && LogListBox.Items.Count > 0)
             {
-                if (e.Action == NotifyCollectionChangedAction.Add && LogListBox.Items.Count > 0)
-                {
-                    LogListBox.ScrollIntoView(LogListBox.Items[^1]);
-                }
-            };
+                var last = LogListBox.Items[LogListBox.Items.Count - 1];
+                LogListBox.ScrollIntoView(last);
+            }
         }
     }
 }

@@ -22,9 +22,9 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
 
+  <!-- System.Windows.Forms for FolderBrowserDialog -->
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <!-- SolidWorks API references (available when SW is installed) -->

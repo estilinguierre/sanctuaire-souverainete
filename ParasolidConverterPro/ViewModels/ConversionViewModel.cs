@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using ParasolidConverterPro.Commands;
 using ParasolidConverterPro.Models;
 using ParasolidConverterPro.Services;
+// System.Windows.Forms used via fully-qualified name for FolderBrowserDialog only
 
 namespace ParasolidConverterPro.ViewModels
 {

@@ -1,0 +1,46 @@
+version: "3.9"
+
+# NOTE: The MCP server (mcp-server/) must run bare-metal on the Windows machine
+# that has SolidWorks installed (winax COM cannot run in Linux containers).
+# Docker is used for the backend and frontend only.
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ctm_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+      - ./obsidian_export:/app/obsidian_export:ro
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MCP_SERVER_URL=${MCP_SERVER_URL:-http://host.docker.internal:3001}
+      - CHROMA_PERSIST_DIR=/app/data/embeddings
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DEBUG=${DEBUG:-false}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ctm_frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  default:
+    name: ctm_network

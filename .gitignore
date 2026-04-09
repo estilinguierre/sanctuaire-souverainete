@@ -42,3 +42,17 @@ temp/
 # Backups
 *.bak
 *.backup
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+.eggs/
+
+# Data / embeddings (runtime-generated, not source)
+solidworks-ai-assistant/backend/data/embeddings/
+solidworks-ai-assistant/backend/data/raw/
+solidworks-ai-assistant/backend/data/processed/
+solidworks-ai-assistant/backend/data/logs/

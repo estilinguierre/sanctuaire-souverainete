@@ -14,9 +14,12 @@ from app.utils.chunking import chunk_markdown
 from app.utils.logger import setup_logging, app_logger
 
 
-PROCESSED_DIR = Path("data/processed")
-OBSIDIAN_ROOT = Path("obsidian_export/Guides_Industriels")
-GENERATED_ROOT = Path("data/industrial_guides")
+_BACKEND_DIR = Path(__file__).parent.parent
+_PROJECT_DIR = _BACKEND_DIR.parent
+
+PROCESSED_DIR = _BACKEND_DIR / "data/processed"
+OBSIDIAN_ROOT = _PROJECT_DIR / "obsidian_export/Guides_Industriels"
+GENERATED_ROOT = _BACKEND_DIR / "data/industrial_guides"
 
 OPERATION_MAP = {
     "Tôlerie": "tolerie",

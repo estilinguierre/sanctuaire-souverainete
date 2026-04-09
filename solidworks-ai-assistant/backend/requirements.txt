@@ -13,3 +13,4 @@ tiktoken==0.6.0
 numpy==1.26.4
 python-dotenv==1.0.1
 sse-starlette==1.8.2
+sentence-transformers>=2.7.0

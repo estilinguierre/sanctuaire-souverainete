@@ -83,6 +83,14 @@ html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui,
 .panel-section input[type="number"] { width: 70px; padding: 2px 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); font-size: 12px; }
 .panel-section input[type="number"]:focus { outline: none; border-color: var(--accent); }
 .panel-section input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); }
+.panel-section select {
+  padding: 3px 6px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 3px; color: var(--text); font-size: 12px; cursor: pointer;
+  width: 100%;
+}
+.panel-section select:focus { outline: none; border-color: var(--accent); }
+#paper-panel h3 { color: var(--accent2); }
+#paper-panel .prop-row { margin-bottom: 4px; }
 
 /* ── Layers ──────────────────────────────────────────────────────────────── */
 .layer-item { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 4px; cursor: pointer; transition: background 0.1s; }

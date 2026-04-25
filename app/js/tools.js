@@ -516,7 +516,7 @@ class DimRadiusTool extends BaseTool {
     super(app);
     this.name = 'dim-radi';
     this.hint = 'Cliquer un cercle ou arc pour coter le rayon/diamètre';
-    this._useDialmet = false;
+    this._useDiameter = false;
   }
 
   onMouseDown(ev, wp, snap) {

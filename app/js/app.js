@@ -136,6 +136,36 @@ class App {
       gvEl.addEventListener('change', () => { this.renderer.showGrid = gvEl.checked; this.renderer.markDirty(); });
     }
 
+    // Paper format / scale / orientation
+    const pfEl = document.getElementById('paper-format');
+    if (pfEl) {
+      pfEl.value = this.drawing.paperFormat;
+      pfEl.addEventListener('change', () => { this.drawing.paperFormat = pfEl.value; this.renderer.markDirty(); });
+    }
+    const poEl = document.getElementById('paper-orient');
+    if (poEl) {
+      poEl.value = this.drawing.paperOrientation;
+      poEl.addEventListener('change', () => { this.drawing.paperOrientation = poEl.value; this.renderer.markDirty(); });
+    }
+    const scEl = document.getElementById('drawing-scale');
+    if (scEl) {
+      scEl.value = String(this.drawing.drawingScale);
+      scEl.addEventListener('change', () => {
+        const v = parseFloat(scEl.value);
+        if (v > 0 && v <= 1) { this.drawing.drawingScale = v; this.renderer.markDirty(); }
+      });
+    }
+    const spEl = document.getElementById('show-paper');
+    if (spEl) {
+      spEl.checked = this.drawing.showPaperFrame;
+      spEl.addEventListener('change', () => { this.drawing.showPaperFrame = spEl.checked; this.renderer.markDirty(); });
+    }
+    const titleEl = document.getElementById('drawing-title');
+    if (titleEl) {
+      titleEl.value = this.drawing.title;
+      titleEl.addEventListener('input', () => { this.drawing.title = titleEl.value; });
+    }
+
     // Template buttons
     document.querySelectorAll('.tpl-btn[data-template]').forEach(btn => {
       btn.addEventListener('click', () => this._showTemplateDialog(btn.dataset.template));

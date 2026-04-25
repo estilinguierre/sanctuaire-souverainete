@@ -49,18 +49,20 @@ class Viewport {
   }
 
   zoomToFit(drawing, padding = 40) {
-    const ents = drawing.entities.filter(e => e.bbox && e.visible);
-    if (!ents.length) { this.scale = 3; this.ox = this.W/2; this.oy = this.H/2; return; }
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (const e of ents) {
-      const b = e.bbox();
+    for (const e of drawing.entities) {
+      if (!e.visible) continue;
+      const b = e.bbox ? e.bbox() : null;
+      if (!b) continue;
       minX = Math.min(minX, b.minX); minY = Math.min(minY, b.minY);
       maxX = Math.max(maxX, b.maxX); maxY = Math.max(maxY, b.maxY);
     }
+    if (!isFinite(minX)) { this.scale = 3; this.ox = this.W/2; this.oy = this.H/2; return; }
     const dw = maxX - minX, dh = maxY - minY;
     if (dw < 1e-6 && dh < 1e-6) return;
-    const sx = (this.W - padding*2) / dw, sy = (this.H - padding*2) / dh;
-    this.scale = Math.min(sx, sy, 500);
+    const sx = (this.W - padding*2) / Math.max(dw, 1);
+    const sy = (this.H - padding*2) / Math.max(dh, 1);
+    this.scale = clamp(Math.min(sx, sy), 0.1, 500);
     this.ox = this.W/2 - ((minX + maxX)/2) * this.scale;
     this.oy = this.H/2 + ((minY + maxY)/2) * this.scale;
   }
@@ -120,6 +122,9 @@ class Renderer {
 
     // Grid
     if (this.showGrid) this._drawGrid(ctx, W, H);
+
+    // Paper frame
+    if (drawing.showPaperFrame) this._drawPaperFrame(ctx, W, H);
 
     // Entities
     for (const e of drawing.entities) {
@@ -289,7 +294,6 @@ class Renderer {
   _drawEntity(ctx, e, isSelected, isPreview = false) {
     ctx.save();
     this._setEntityStyle(ctx, e, isPreview);
-    const { color } = { color: this.drawing.layerColor(e) };
 
     if (e instanceof LineEntity)         this._drawLine(ctx, e);
     else if (e instanceof CircleEntity)  this._drawCircle(ctx, e);
@@ -529,5 +533,81 @@ class Renderer {
       ctx.moveTo(cp.x, cp.y - r/2); ctx.lineTo(cp.x, cp.y + r/2);
       ctx.stroke();
     }
+  }
+
+  // ── Paper frame ──────────────────────────────────────────────────────────
+  _drawPaperFrame(ctx, W, H) {
+    const d = this.drawing;
+    const PAPER_MM = {
+      A0:[841,1189], A1:[594,841], A2:[420,594],
+      A3:[297,420],  A4:[210,297], Letter:[216,279],
+    };
+    let [pw, ph] = PAPER_MM[d.paperFormat] || [210, 297];
+    if (d.paperOrientation === 'landscape') { const t = pw; pw = ph; ph = t; }
+
+    // drawingScale = 1/N → world area = pw*N × ph*N mm
+    const N = 1 / d.drawingScale;
+    const worldW = pw * N, worldH = ph * N;
+
+    const vp = this.vp;
+    const tl = vp.toCanvas(0,      worldH);
+    const tr = vp.toCanvas(worldW, worldH);
+    const br = vp.toCanvas(worldW, 0);
+    const bl = vp.toCanvas(0,      0);
+
+    ctx.save();
+
+    // Subtle shadow outside paper
+    ctx.fillStyle = '#00000030';
+    ctx.beginPath();
+    ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
+    ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Paper fill (very slight lighter background)
+    ctx.fillStyle = '#ffffff06';
+    ctx.fill();
+
+    // Border
+    ctx.strokeStyle = '#6666aa';
+    ctx.lineWidth   = 1.5;
+    ctx.setLineDash([10, 5]);
+    ctx.beginPath();
+    ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
+    ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Title block (bottom-right corner, 10mm margin)
+    const margin = 10 * N * vp.scale;
+    const tbW    = Math.min(pw * 0.6 * vp.scale * (1/N), 200);
+    const tbH    = 20;
+    const tbX    = br.x - margin - tbW;
+    const tbY    = br.y + margin;
+
+    if (tbY + tbH < H + 40) {
+      ctx.setLineDash([]);
+      ctx.strokeStyle = '#6666aa';
+      ctx.lineWidth   = 0.8;
+      ctx.strokeRect(tbX, tbY, tbW, tbH);
+
+      ctx.fillStyle   = '#8888cc';
+      ctx.font        = '10px monospace';
+      ctx.textAlign   = 'left';
+      ctx.textBaseline= 'middle';
+      const scaleText = `${d.paperFormat} ${d.paperOrientation === 'landscape' ? 'Paysage' : 'Portrait'}   Échelle 1:${Math.round(N)}   ${d.units || 'mm'}`;
+      ctx.fillText(scaleText, tbX + 6, tbY + tbH / 2);
+    }
+
+    // Corner label (top-left)
+    ctx.setLineDash([]);
+    ctx.fillStyle   = '#6666aa';
+    ctx.font        = '10px monospace';
+    ctx.textAlign   = 'left';
+    ctx.textBaseline= 'bottom';
+    ctx.fillText(`Zone: ${fmt(worldW,0)} × ${fmt(worldH,0)} mm`, tl.x + 4, tl.y - 3);
+
+    ctx.restore();
   }
 }

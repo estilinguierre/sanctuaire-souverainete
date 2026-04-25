@@ -299,11 +299,18 @@ class Drawing {
     this.activeLayer = 0;
     this.units = 'mm';
     this.title = 'Sans titre';
+    this.author = '';
+    this.revision = '1';
     this.gridSpacing = 10;
     this.snapGrid      = true;
     this.snapEndpoint  = true;
     this.snapMidpoint  = true;
     this.snapCenter    = true;
+    // Paper / mise en page
+    this.paperFormat      = 'A4';
+    this.paperOrientation = 'landscape';
+    this.drawingScale     = 0.1;   // 1:10 par défaut
+    this.showPaperFrame   = true;
     this._history = [];
     this._historyPos = -1;
     this._pushHistory();
@@ -444,58 +451,100 @@ class Drawing {
   }
 
   toSVG(opts = {}) {
-    const margin = opts.margin || 20;
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (const e of this.entities) {
-      const b = e.bbox ? e.bbox() : null;
-      if (!b) continue;
-      minX = Math.min(minX, b.minX); minY = Math.min(minY, b.minY);
-      maxX = Math.max(maxX, b.maxX); maxY = Math.max(maxY, b.maxY);
-    }
-    if (!isFinite(minX)) { minX = 0; minY = 0; maxX = 100; maxY = 100; }
-    minX -= margin; minY -= margin; maxX += margin; maxY += margin;
-    const W = maxX - minX, H = maxY - minY;
-    // SVG y-axis is down; our world y is up → flip
-    const tx = x => x - minX;
-    const ty = y => H - (y - minY);
+    // Paper size constants (mm)
+    const PAPER_MM = {
+      A0:[841,1189], A1:[594,841], A2:[420,594],
+      A3:[297,420],  A4:[210,297], Letter:[216,279],
+    };
+    let [pw, ph] = PAPER_MM[this.paperFormat] || [210, 297];
+    if (this.paperOrientation === 'landscape') { const t = pw; pw = ph; ph = t; }
 
-    const lines = [`<?xml version="1.0" encoding="UTF-8"?>`,
-      `<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">`,
-      `<rect width="${W}" height="${H}" fill="#1a1a2e"/>`,
-      `<g font-family="monospace" font-size="4" fill="none" stroke-linecap="round" stroke-linejoin="round">`];
+    // drawingScale = 1/N → 1mm on paper = N mm real
+    const N = 1 / this.drawingScale;
+    const worldW = pw * N, worldH = ph * N;
 
+    // SVG coordinate transform: world → paper mm (y-flip)
+    // svgX = worldX / N,  svgY = ph - worldY / N
+    const f = (v) => parseFloat((v / N).toFixed(4));
+    const tx = x => f(x);
+    const ty = y => parseFloat((ph - y / N).toFixed(4));
+
+    // Font sizes in SVG (scaled to paper)
+    const dimFont = Math.max(2, 3.5 * this.drawingScale);
+    const arrowMM = Math.max(0.5, 2.5 * this.drawingScale);
+
+    const lines = [
+      `<?xml version="1.0" encoding="UTF-8"?>`,
+      `<svg xmlns="http://www.w3.org/2000/svg"`,
+      `     width="${pw}mm" height="${ph}mm" viewBox="0 0 ${pw} ${ph}">`,
+      `<!-- MetalSketch export | ${this.paperFormat} ${this.paperOrientation} | Échelle 1:${Math.round(N)} | ${new Date().toLocaleDateString('fr-FR')} -->`,
+      `<rect width="${pw}" height="${ph}" fill="white"/>`,
+      `<g font-family="monospace" fill="none" stroke-linecap="round" stroke-linejoin="round">`,
+    ];
+
+    // Paper border + title block
+    lines.push(`<rect x="5" y="5" width="${pw-10}" height="${ph-10}" stroke="#333" stroke-width="0.5" fill="none"/>`);
+    lines.push(`<rect x="5" y="${ph-15}" width="${pw-10}" height="10" stroke="#333" stroke-width="0.35" fill="none"/>`);
+    const titleText = `${this.title || 'Sans titre'}  |  ${this.paperFormat} ${this.paperOrientation === 'landscape' ? 'Paysage' : 'Portrait'}  |  Éch. 1:${Math.round(N)}  |  ${this.units || 'mm'}`;
+    lines.push(`<text x="${pw/2}" y="${ph-8}" fill="#333" font-size="3" text-anchor="middle" dominant-baseline="middle">${titleText}</text>`);
+
+    // Entities
     for (const e of this.entities) {
       if (!e.visible) continue;
       const col = this.layerColor(e);
-      const lw  = this.layerLineWidth(e);
+      const lw  = Math.max(0.1, this.layerLineWidth(e) * this.drawingScale);
       const attr = `stroke="${col}" stroke-width="${lw}"`;
 
       if (e instanceof LineEntity) {
         lines.push(`<line x1="${tx(e.p1.x)}" y1="${ty(e.p1.y)}" x2="${tx(e.p2.x)}" y2="${ty(e.p2.y)}" ${attr}/>`);
+
       } else if (e instanceof CircleEntity) {
-        lines.push(`<circle cx="${tx(e.center.x)}" cy="${ty(e.center.y)}" r="${e.radius}" ${attr}/>`);
+        const r = f(e.radius);
+        lines.push(`<circle cx="${tx(e.center.x)}" cy="${ty(e.center.y)}" r="${r}" ${attr}/>`);
+
       } else if (e instanceof ArcEntity) {
         const sp = e.startPoint, ep = e.endPoint;
         const largeArc = e.sweepAngle > Math.PI ? 1 : 0;
-        // In SVG y is down, so ccw in world = cw in SVG = sweep-flag=0
         const sweep = e.ccw ? 0 : 1;
-        lines.push(`<path d="M ${tx(sp.x)} ${ty(sp.y)} A ${e.radius} ${e.radius} 0 ${largeArc} ${sweep} ${tx(ep.x)} ${ty(ep.y)}" ${attr}/>`);
+        const r = f(e.radius);
+        lines.push(`<path d="M ${tx(sp.x)} ${ty(sp.y)} A ${r} ${r} 0 ${largeArc} ${sweep} ${tx(ep.x)} ${ty(ep.y)}" ${attr}/>`);
+
       } else if (e instanceof PolylineEntity) {
         const pts = e.points.map(p => `${tx(p.x)},${ty(p.y)}`).join(' ');
-        if (e.closed)
-          lines.push(`<polygon points="${pts}" ${attr} fill="none"/>`);
-        else
-          lines.push(`<polyline points="${pts}" ${attr} fill="none"/>`);
+        lines.push(e.closed
+          ? `<polygon points="${pts}" ${attr} fill="none"/>`
+          : `<polyline points="${pts}" ${attr} fill="none"/>`);
+
       } else if (e instanceof TextEntity) {
-        lines.push(`<text x="${tx(e.pos.x)}" y="${ty(e.pos.y)}" fill="${col}" font-size="${e.height}">${e.text}</text>`);
+        const h = Math.max(1.5, e.height * this.drawingScale);
+        lines.push(`<text x="${tx(e.pos.x)}" y="${ty(e.pos.y)}" fill="${col}" font-size="${h}">${e.text}</text>`);
+
       } else if (e instanceof LinearDimension) {
-        const g = e.computeGeometry();
-        const dc = this.layerColor(e), dlw = 0.5;
-        const da = `stroke="${dc}" stroke-width="${dlw}"`;
+        const g   = e.computeGeometry();
+        const dc  = this.layerColor(e);
+        const dlw = Math.max(0.1, 0.5 * this.drawingScale);
+        const da  = `stroke="${dc}" stroke-width="${dlw}"`;
         lines.push(`<line x1="${tx(g.c1.x)}" y1="${ty(g.c1.y)}" x2="${tx(g.c2.x)}" y2="${ty(g.c2.y)}" ${da}/>`);
         lines.push(`<line x1="${tx(g.e1from.x)}" y1="${ty(g.e1from.y)}" x2="${tx(g.e1to.x)}" y2="${ty(g.e1to.y)}" ${da}/>`);
         lines.push(`<line x1="${tx(g.e2from.x)}" y1="${ty(g.e2from.y)}" x2="${tx(g.e2to.x)}" y2="${ty(g.e2to.y)}" ${da}/>`);
-        lines.push(`<text x="${tx(g.textPos.x)}" y="${ty(g.textPos.y)}" fill="${dc}" font-size="4" text-anchor="middle" dominant-baseline="middle">${e.text}</text>`);
+        lines.push(`<text x="${tx(g.textPos.x)}" y="${ty(g.textPos.y)}" fill="${dc}" font-size="${dimFont}" text-anchor="middle" dominant-baseline="middle">${e.text}</text>`);
+
+      } else if (e instanceof AngularDimension) {
+        const g  = e.computeGeometry();
+        const dc = this.layerColor(e);
+        const da = `stroke="${dc}" stroke-width="${Math.max(0.1, 0.5 * this.drawingScale)}"`;
+        const r  = f(g.radius);
+        const cv = { x: tx(g.vertex.x), y: ty(g.vertex.y) };
+        lines.push(`<path d="M ${cv.x + r * Math.cos(-g.startA)} ${cv.y + r * Math.sin(-g.startA)} A ${r} ${r} 0 0 0 ${cv.x + r * Math.cos(-g.endA)} ${cv.y + r * Math.sin(-g.endA)}" ${da}/>`);
+        lines.push(`<text x="${tx(g.textPos.x)}" y="${ty(g.textPos.y)}" fill="${dc}" font-size="${dimFont}" text-anchor="middle" dominant-baseline="middle">${e.text}</text>`);
+
+      } else if (e instanceof RadiusDimension) {
+        const dc = this.layerColor(e);
+        const da = `stroke="${dc}" stroke-width="${Math.max(0.1, 0.5 * this.drawingScale)}"`;
+        lines.push(`<line x1="${tx(e.center.x)}" y1="${ty(e.center.y)}" x2="${tx(e.pointOnCircle.x)}" y2="${ty(e.pointOnCircle.y)}" ${da}/>`);
+        const dir = e.pointOnCircle.sub(e.center).norm();
+        const tp  = e.pointOnCircle.add(dir.mul(6));
+        lines.push(`<text x="${tx(tp.x)}" y="${ty(tp.y)}" fill="${dc}" font-size="${dimFont}" text-anchor="middle" dominant-baseline="middle">${e.text}</text>`);
       }
     }
 

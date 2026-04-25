@@ -182,6 +182,50 @@
       <label><input type="checkbox" id="grid-visible" checked> Afficher</label>
     </div>
 
+    <div class="panel-section" id="paper-panel">
+      <h3>Mise en page</h3>
+      <div class="prop-row">
+        <label>Format</label>
+        <select id="paper-format">
+          <option value="A4">A4</option>
+          <option value="A3">A3</option>
+          <option value="A2">A2</option>
+          <option value="A1">A1</option>
+          <option value="A0">A0</option>
+          <option value="Letter">Letter</option>
+        </select>
+      </div>
+      <div class="prop-row">
+        <label>Orientation</label>
+        <select id="paper-orient">
+          <option value="landscape">Paysage</option>
+          <option value="portrait">Portrait</option>
+        </select>
+      </div>
+      <div class="prop-row">
+        <label>Échelle</label>
+        <select id="drawing-scale">
+          <option value="1">1:1</option>
+          <option value="0.5">1:2</option>
+          <option value="0.2">1:5</option>
+          <option value="0.1" selected>1:10</option>
+          <option value="0.05">1:20</option>
+          <option value="0.04">1:25</option>
+          <option value="0.02">1:50</option>
+          <option value="0.01">1:100</option>
+          <option value="0.005">1:200</option>
+          <option value="0.002">1:500</option>
+        </select>
+      </div>
+      <div class="prop-row">
+        <label><input type="checkbox" id="show-paper" checked> Afficher cadre</label>
+      </div>
+      <div class="prop-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <label>Titre du plan</label>
+        <input type="text" id="drawing-title" value="Sans titre" style="width:100%;padding:3px 6px;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:12px;">
+      </div>
+    </div>
+
     <div class="panel-section" id="templates-panel">
       <h3>Développés</h3>
       <button class="tpl-btn" data-template="cylinder">

@@ -1,0 +1,199 @@
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #12121e;
+  --panel:     #1c1c2e;
+  --panel2:    #22223a;
+  --border:    #2e2e4a;
+  --text:      #ccd0dd;
+  --text-dim:  #7780a0;
+  --accent:    #5b8aff;
+  --accent2:   #00d4d4;
+  --active:    #3a5ad4;
+  --sel:       #ff9900;
+  --warn:      #ff5555;
+  --success:   #00cc88;
+  --layer0:    #e0e0e0;
+  --layer1:    #4499ff;
+  --layer2:    #00d4d4;
+  --layer3:    #ff5555;
+  --btn-h:     32px;
+  --sidebar-w: 200px;
+  --topbar-h:  36px;
+  --toolbar-h: 48px;
+  --statusbar-h: 26px;
+}
+
+html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: var(--text); background: var(--bg); }
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+#top-bar { display: flex; flex-direction: column; background: var(--panel); border-bottom: 1px solid var(--border); z-index: 100; }
+#main    { display: flex; flex: 1; overflow: hidden; height: calc(100vh - var(--topbar-h) - var(--toolbar-h) - var(--statusbar-h)); }
+#status-bar { display: flex; align-items: center; gap: 16px; padding: 0 12px; height: var(--statusbar-h); background: var(--panel); border-top: 1px solid var(--border); font-size: 11px; font-family: monospace; color: var(--text-dim); overflow: hidden; }
+
+/* ── Menu bar ─────────────────────────────────────────────────────────────── */
+#menu-bar {
+  display: flex; align-items: center; height: var(--topbar-h);
+  padding: 0 8px; gap: 4px; border-bottom: 1px solid var(--border);
+}
+.menu-logo { display: flex; align-items: center; gap: 6px; margin-right: 12px; font-weight: 700; font-size: 14px; color: var(--accent); user-select: none; }
+.logo-icon { font-size: 18px; }
+.menu-items { display: flex; gap: 2px; flex: 1; }
+.menu-item { padding: 4px 10px; border-radius: 4px; cursor: pointer; color: var(--text); font-size: 12px; user-select: none; }
+.menu-item:hover { background: var(--panel2); }
+.menu-actions { display: flex; gap: 4px; margin-left: auto; }
+.menu-actions button {
+  padding: 4px 8px; border: none; border-radius: 4px; background: var(--panel2);
+  color: var(--text); cursor: pointer; font-size: 14px; line-height: 1;
+  border: 1px solid var(--border);
+}
+.menu-actions button:hover { background: var(--active); color: #fff; }
+
+/* ── Toolbar ─────────────────────────────────────────────────────────────── */
+#toolbar {
+  display: flex; align-items: center; height: var(--toolbar-h);
+  padding: 4px 8px; gap: 2px; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.tool-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 52px; min-width: 52px; height: 40px; padding: 2px 4px;
+  border: 1px solid transparent; border-radius: 5px; background: none;
+  color: var(--text-dim); cursor: pointer; gap: 1px; transition: all 0.12s;
+  font-size: 9px; user-select: none;
+}
+.tool-btn svg { width: 20px; height: 20px; }
+.tool-btn:hover { background: var(--panel2); border-color: var(--border); color: var(--text); }
+.tool-btn.active { background: var(--active); border-color: var(--accent); color: #fff; }
+.tool-separator { width: 1px; height: 32px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+
+/* ── Sidebars ─────────────────────────────────────────────────────────────── */
+#sidebar-left, #sidebar-right {
+  width: var(--sidebar-w); min-width: var(--sidebar-w);
+  background: var(--panel); border-right: 1px solid var(--border);
+  overflow-y: auto; overflow-x: hidden;
+  display: flex; flex-direction: column; gap: 0;
+}
+#sidebar-right { border-right: none; border-left: 1px solid var(--border); }
+
+.panel-section { padding: 10px; border-bottom: 1px solid var(--border); }
+.panel-section h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 8px; font-weight: 600; }
+.panel-section label { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 12px; cursor: pointer; color: var(--text); }
+.panel-section input[type="number"] { width: 70px; padding: 2px 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); font-size: 12px; }
+.panel-section input[type="number"]:focus { outline: none; border-color: var(--accent); }
+.panel-section input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); }
+
+/* ── Layers ──────────────────────────────────────────────────────────────── */
+.layer-item { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 4px; cursor: pointer; transition: background 0.1s; }
+.layer-item:hover { background: var(--panel2); }
+.layer-item.active { background: var(--active); }
+.layer-color { width: 12px; height: 12px; border-radius: 2px; border: 1px solid #00000033; flex-shrink: 0; }
+.layer-name { font-size: 12px; }
+
+/* ── Canvas wrapper ──────────────────────────────────────────────────────── */
+#canvas-wrapper { flex: 1; position: relative; overflow: hidden; background: #12121e; }
+#main-canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+
+/* ── Properties panel ────────────────────────────────────────────────────── */
+.prop-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; gap: 6px; font-size: 12px; }
+.prop-row label { color: var(--text-dim); flex-shrink: 0; min-width: 70px; }
+.prop-row span  { color: var(--accent2); font-family: monospace; }
+.prop-row input[type="number"] { width: 80px; }
+.prop-row input[type="color"]  { width: 32px; height: 22px; padding: 1px; border: 1px solid var(--border); border-radius: 3px; background: none; cursor: pointer; }
+.hint { color: var(--text-dim); font-size: 11px; font-style: italic; line-height: 1.5; }
+#no-selection { padding: 4px 0; }
+
+/* ── Metalwork panel ─────────────────────────────────────────────────────── */
+#metalwork-panel { background: var(--panel2); }
+#metalwork-panel h3 { color: var(--accent2); }
+
+/* ── Templates panel ─────────────────────────────────────────────────────── */
+#templates-panel .tpl-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 7px 8px; margin-bottom: 4px;
+  border: 1px solid var(--border); border-radius: 5px;
+  background: var(--bg); color: var(--text); cursor: pointer;
+  font-size: 12px; text-align: left; transition: all 0.1s;
+}
+#templates-panel .tpl-btn:hover { background: var(--active); border-color: var(--accent); }
+.tpl-icon { font-size: 16px; }
+
+/* ── Status bar ──────────────────────────────────────────────────────────── */
+#status-tool   { color: var(--accent); font-weight: 600; min-width: 110px; }
+#status-coords { font-family: monospace; min-width: 160px; color: var(--text); }
+#status-snap   { color: var(--success); min-width: 130px; font-weight: 600; }
+#status-zoom   { color: var(--text-dim); min-width: 80px; }
+#status-units  { color: var(--text-dim); }
+#status-info   { color: var(--accent2); font-family: monospace; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#status-hint   { color: var(--text-dim); font-style: italic; font-size: 11px; }
+
+/* ── Dialog ──────────────────────────────────────────────────────────────── */
+#dialog-overlay {
+  position: fixed; inset: 0; background: #00000099;
+  display: none; align-items: center; justify-content: center; z-index: 1000;
+}
+#dialog-box {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  width: 420px; max-width: 95vw; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 8px 32px #00000066;
+}
+#dialog-title {
+  padding: 14px 16px; font-size: 15px; font-weight: 600; color: var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+#dialog-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.dialog-field { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dialog-field label { color: var(--text); font-size: 13px; flex: 1; }
+.dialog-field input {
+  width: 130px; padding: 5px 8px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; color: var(--text); font-size: 13px;
+}
+.dialog-field input:focus { outline: none; border-color: var(--accent); }
+#dialog-actions {
+  display: flex; gap: 8px; padding: 12px 16px;
+  border-top: 1px solid var(--border); justify-content: flex-end;
+}
+#dialog-actions button {
+  padding: 7px 20px; border-radius: 5px; border: 1px solid var(--border);
+  background: var(--panel2); color: var(--text); cursor: pointer; font-size: 13px;
+  transition: all 0.12s;
+}
+#dialog-ok { background: var(--active); border-color: var(--accent); color: #fff; font-weight: 600; }
+#dialog-ok:hover { background: var(--accent); }
+#dialog-cancel:hover { background: var(--panel2); border-color: var(--text-dim); }
+
+/* ── Context menu ────────────────────────────────────────────────────────── */
+#context-menu {
+  position: fixed; background: var(--panel); border: 1px solid var(--border);
+  border-radius: 6px; box-shadow: 0 4px 16px #00000066;
+  z-index: 500; min-width: 160px; display: none;
+  padding: 4px 0;
+}
+.ctx-item {
+  padding: 7px 14px; cursor: pointer; font-size: 12px; color: var(--text);
+  transition: background 0.08s;
+}
+.ctx-item:hover { background: var(--active); }
+.ctx-separator { height: 1px; background: var(--border); margin: 3px 0; }
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* ── Responsive (mobile/tablet) ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  #sidebar-left, #sidebar-right { display: none; }
+  #toolbar { --toolbar-h: 56px; }
+  .tool-btn { width: 46px; min-width: 46px; height: 46px; font-size: 8px; }
+  #status-bar { font-size: 10px; gap: 10px; }
+  #status-hint { display: none; }
+}
+
+@media (max-width: 480px) {
+  .tool-btn span { display: none; }
+  .tool-btn { width: 38px; min-width: 38px; height: 38px; }
+}

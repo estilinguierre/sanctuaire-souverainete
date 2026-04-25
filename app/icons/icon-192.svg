@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="32" fill="#12121e"/>
+  <rect x="10" y="10" width="172" height="172" rx="24" fill="#1c1c2e" stroke="#2e2e4a" stroke-width="2"/>
+  <!-- Gear icon -->
+  <g transform="translate(96,96)" fill="#5b8aff">
+    <circle r="22" fill="#12121e" stroke="#5b8aff" stroke-width="8"/>
+    <circle r="10" fill="#5b8aff"/>
+    <rect x="-8" y="-46" width="16" height="20" rx="4"/>
+    <rect x="-8" y="26"  width="16" height="20" rx="4"/>
+    <rect x="-46" y="-8" width="20" height="16" rx="4"/>
+    <rect x="26"  y="-8" width="20" height="16" rx="4"/>
+    <rect x="-38" y="-38" width="16" height="16" rx="3" transform="rotate(45)"/>
+    <rect x="-38" y="-38" width="16" height="16" rx="3" transform="rotate(-45)"/>
+    <rect x="-38" y="-38" width="16" height="16" rx="3" transform="rotate(135)"/>
+    <rect x="-38" y="-38" width="16" height="16" rx="3" transform="rotate(-135)"/>
+  </g>
+  <!-- Dimension lines -->
+  <line x1="20" y1="155" x2="172" y2="155" stroke="#00d4d4" stroke-width="2"/>
+  <line x1="20" y1="148" x2="20"  y2="162" stroke="#00d4d4" stroke-width="2"/>
+  <line x1="172" y1="148" x2="172" y2="162" stroke="#00d4d4" stroke-width="2"/>
+  <text x="96" y="147" font-family="monospace" font-size="12" fill="#00d4d4" text-anchor="middle">⌀ Ø R</text>
+</svg>

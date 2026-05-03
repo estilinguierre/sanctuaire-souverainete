@@ -542,3 +542,48 @@ class DimRadiusTool extends BaseTool {
     this.app.setStatus('Aucun cercle/arc trouvé — cliquer sur le contour');
   }
 }
+
+// ── Measure tool ─────────────────────────────────────────────────────────────
+class MeasureTool extends BaseTool {
+  constructor(app) {
+    super(app);
+    this.name   = 'measure';
+    this.hint   = 'Cliquer le 1er point de mesure';
+    this.cursor = 'crosshair';
+    this._p1    = null;
+  }
+
+  activate() { super.activate(); this._p1 = null; }
+  cancel()   { this._p1 = null; super.cancel(); }
+
+  onMouseDown(ev, wp, snap) {
+    if (!this._p1) {
+      this._p1 = snap.point.clone();
+      this.app.setHint('Cliquer le 2ème point pour ancrer • Échap pour annuler');
+    } else {
+      // Anchor measurement, start new from this point
+      this._p1 = snap.point.clone();
+    }
+  }
+
+  onMouseMove(ev, wp, snap) {
+    if (!this._p1) return;
+    const p2  = snap.point;
+    const dx  = p2.x - this._p1.x;
+    const dy  = p2.y - this._p1.y;
+    const d   = this._p1.dist(p2);
+    const ang = rad2deg(p2.sub(this._p1).angle());
+
+    this.app.setStatus(
+      `Distance: ${fmt(d, 3)} mm  |  Δx: ${fmt(Math.abs(dx), 3)}  Δy: ${fmt(Math.abs(dy), 3)}  |  Angle: ${fmt(ang, 2)}°`
+    );
+
+    // Yellow preview line with tick marks at each end
+    const line = new LineEntity(this._p1, p2);
+    line.color = '#ffee00'; line.lineWidth = 1.2;
+    this.app.renderer.previewEntities = [line];
+    this.app.renderer.markDirty();
+  }
+
+  onKeyDown(ev) { if (ev.key === 'Escape') this.cancel(); }
+}

@@ -35,6 +35,7 @@
       <button id="btn-open"     title="Ouvrir (.json)">📂</button>
       <button id="btn-save"     title="Sauvegarder (.json) [Ctrl+S]">💾</button>
       <button id="btn-export"   title="Exporter SVG [Ctrl+E]">📐</button>
+      <button id="btn-print"    title="Imprimer [Ctrl+P]">🖨</button>
       <button id="btn-undo"     title="Annuler [Ctrl+Z]">↩</button>
       <button id="btn-redo"     title="Rétablir [Ctrl+Y]">↪</button>
       <button id="btn-zoom-fit" title="Ajuster à l'écran">⊡</button>
@@ -158,6 +159,19 @@
         <text x="3" y="9" font-size="8" fill="currentColor" stroke="none">R</text>
       </svg>
       <span>Rayon</span>
+    </button>
+
+    <div class="tool-separator"></div>
+
+    <button class="tool-btn" data-tool="measure" title="Mesure rapide [M]">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" fill="none">
+        <line x1="4" y1="20" x2="20" y2="4" stroke="#ffee00"/>
+        <circle cx="4"  cy="20" r="2" fill="#ffee00" stroke="none"/>
+        <circle cx="20" cy="4"  r="2" fill="#ffee00" stroke="none"/>
+        <line x1="11" y1="13" x2="14" y2="10" stroke="#ffee00" stroke-width="1"/>
+        <text x="14" y="16" font-size="6" fill="currentColor" stroke="none">d</text>
+      </svg>
+      <span>Mesure</span>
     </button>
   </div>
 </header>

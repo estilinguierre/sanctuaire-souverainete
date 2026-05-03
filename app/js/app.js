@@ -11,8 +11,9 @@ class App {
     this._activeTool = null;
     this._panStart    = null;
     this._isPanning   = false;
-    this._touchDist   = 0; // for pinch zoom
+    this._touchDist   = 0;
     this._lastTouchCt = 0;
+    this._clipboard   = [];
 
     this._initTools();
     this._initEvents();
@@ -43,6 +44,7 @@ class App {
     t['dim-align'] = new DimLinearTool(this, 'aligned');
     t['dim-angle'] = new DimAngularTool(this);
     t['dim-radiu'] = new DimRadiusTool(this);
+    t.measure      = new MeasureTool(this);
   }
 
   _selectTool(name) {
@@ -63,7 +65,7 @@ class App {
       select: 'Sélection', line: 'Ligne', polyline: 'Polyligne', rect: 'Rectangle',
       circle: 'Cercle', arc: 'Arc', text: 'Texte',
       'dim-horiz': 'Cote H', 'dim-vert': 'Cote V', 'dim-align': 'Cote alignée',
-      'dim-angle': 'Cote angulaire', 'dim-radiu': 'Rayon/Diam.',
+      'dim-angle': 'Cote angulaire', 'dim-radiu': 'Rayon/Diam.', measure: 'Mesure',
     };
     return labels[name] || name;
   }
@@ -104,6 +106,7 @@ class App {
     document.getElementById('btn-save')?.addEventListener('click',   () => this._saveJSON());
     document.getElementById('btn-open')?.addEventListener('click',   () => this._openJSON());
     document.getElementById('btn-new')?.addEventListener('click',    () => this._newDrawing());
+    document.getElementById('btn-print')?.addEventListener('click',   () => this._printSVG());
     document.getElementById('btn-zoom-fit')?.addEventListener('click',() => { this.viewport.zoomToFit(this.drawing); this.renderer.markDirty(); });
     document.getElementById('btn-zoom-in')?.addEventListener('click', () => { this.viewport.zoom(1.25, this.viewport.W/2, this.viewport.H/2); this.renderer.markDirty(); this._updateStatus(); });
     document.getElementById('btn-zoom-out')?.addEventListener('click',() => { this.viewport.zoom(0.8,  this.viewport.W/2, this.viewport.H/2); this.renderer.markDirty(); this._updateStatus(); });
@@ -335,7 +338,7 @@ class App {
   _onKeyDown(e) {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-    // Global shortcuts
+    // Global Ctrl shortcuts
     if (e.ctrlKey || e.metaKey) {
       switch (e.key.toLowerCase()) {
         case 'z': e.preventDefault(); this._undo(); return;
@@ -343,16 +346,67 @@ class App {
         case 'a': e.preventDefault(); this.drawing.selectAll(); this.renderer.markDirty(); return;
         case 's': e.preventDefault(); this._saveJSON(); return;
         case 'e': e.preventDefault(); this._exportSVG(); return;
+        case 'p': e.preventDefault(); this._printSVG(); return;
+        case 'c':
+          e.preventDefault();
+          this._clipboard = this.drawing.getSelected().map(ent => this._cloneEntity(ent, 10, 10)).filter(Boolean);
+          this.setStatus(`${this._clipboard.length} élément(s) copié(s) — Ctrl+V pour coller`);
+          return;
+        case 'x':
+          e.preventDefault();
+          this._clipboard = this.drawing.getSelected().map(ent => this._cloneEntity(ent, 10, 10)).filter(Boolean);
+          this.drawing.removeSelected();
+          this.renderer.markDirty();
+          this.setStatus(`${this._clipboard.length} élément(s) coupé(s)`);
+          return;
+        case 'v':
+          e.preventDefault();
+          if (this._clipboard.length) {
+            this.drawing.deselectAll();
+            const fresh = this._clipboard.map(ent => this._cloneEntity(ent, 0, 0)).filter(Boolean);
+            fresh.forEach(ent => { ent.selected = true; this.drawing.entities.push(ent); });
+            // Offset clipboard for successive pastes
+            this._clipboard = this._clipboard.map(ent => this._cloneEntity(ent, 10, 10)).filter(Boolean);
+            this.drawing.commit();
+            this.renderer.markDirty();
+            this.updatePropsPanel();
+            this.setStatus(`${fresh.length} élément(s) collé(s)`);
+          }
+          return;
+        case 'd':
+          e.preventDefault();
+          this.drawing.deselectAll();
+          this.renderer.markDirty();
+          return;
+      }
+    }
+
+    // Arrow keys → nudge selected elements
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) {
+      const sel = this.drawing.getSelected();
+      if (sel.length) {
+        e.preventDefault();
+        const step = e.shiftKey ? 1 : this.drawing.gridSpacing;
+        const off  = new Vec2(
+          e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0,
+          e.key === 'ArrowUp'   ?  step : e.key === 'ArrowDown'  ? -step : 0
+        );
+        sel.forEach(ent => this._nudgeEntity(ent, off));
+        this.drawing.commit();
+        this.renderer.markDirty();
+        this.updatePropsPanel();
+        return;
       }
     }
 
     // Tool shortcuts
     const shortcuts = {
-      'v': 'select', 'Escape': 'select',
+      'Escape': 'select', 'v': 'select',
       'l': 'line', 'p': 'polyline', 'r': 'rect',
       'c': 'circle', 'a': 'arc', 't': 'text',
       'h': 'dim-horiz', 'q': 'dim-vert',
       'd': 'dim-align', 'g': 'dim-angle', 'f': 'dim-radiu',
+      'm': 'measure',
     };
     if (shortcuts[e.key] && !e.ctrlKey) {
       this._selectTool(shortcuts[e.key]);
@@ -360,6 +414,34 @@ class App {
     }
 
     this._activeTool.onKeyDown(e);
+  }
+
+  // ── Clone / Nudge ─────────────────────────────────────────────────────────
+  _cloneEntity(e, dx = 0, dy = 0) {
+    const off = new Vec2(dx, dy);
+    let ne;
+    if      (e instanceof LineEntity)        ne = new LineEntity(e.p1.add(off), e.p2.add(off));
+    else if (e instanceof CircleEntity)      ne = new CircleEntity(e.center.add(off), e.radius);
+    else if (e instanceof ArcEntity)         ne = new ArcEntity(e.center.add(off), e.radius, e.startAngle, e.endAngle, e.ccw);
+    else if (e instanceof PolylineEntity)    ne = new PolylineEntity(e.points.map(p => p.add(off)), e.closed);
+    else if (e instanceof TextEntity)        ne = new TextEntity(e.pos.add(off), e.text, e.height, e.angle);
+    else if (e instanceof LinearDimension) {
+      ne = new LinearDimension(e.p1.add(off), e.p2.add(off), e.offset, e.dir);
+      ne.textOverride = e.textOverride; ne.suffix = e.suffix; ne.decimals = e.decimals;
+    } else return null;
+    ne.layer = e.layer; ne.color = e.color; ne.lineWidth = e.lineWidth;
+    return ne;
+  }
+
+  _nudgeEntity(e, off) {
+    if      (e instanceof LineEntity)         { e.p1 = e.p1.add(off); e.p2 = e.p2.add(off); }
+    else if (e instanceof CircleEntity)       { e.center = e.center.add(off); }
+    else if (e instanceof ArcEntity)          { e.center = e.center.add(off); }
+    else if (e instanceof PolylineEntity)     { e.points = e.points.map(p => p.add(off)); }
+    else if (e instanceof TextEntity)         { e.pos = e.pos.add(off); }
+    else if (e instanceof LinearDimension)    { e.p1 = e.p1.add(off); e.p2 = e.p2.add(off); }
+    else if (e instanceof AngularDimension)   { e.vertex = e.vertex.add(off); e.refP1 = e.refP1.add(off); e.refP2 = e.refP2.add(off); }
+    else if (e instanceof RadiusDimension)    { e.center = e.center.add(off); e.pointOnCircle = e.pointOnCircle.add(off); }
   }
 
   // ── UI helpers ────────────────────────────────────────────────────────────
@@ -479,6 +561,25 @@ class App {
     const a    = document.createElement('a');
     a.href = url; a.download = (this.drawing.title || 'dessin') + '.svg';
     a.click(); URL.revokeObjectURL(url);
+  }
+
+  _printSVG() {
+    const svg = this.drawing.toSVG();
+    const PAPER = { A0:[841,1189], A1:[594,841], A2:[420,594], A3:[297,420], A4:[210,297], Letter:[216,279] };
+    const [pw, ph] = PAPER[this.drawing.paperFormat] || PAPER.A4;
+    const isLand   = this.drawing.paperOrientation === 'landscape';
+    const pageW    = isLand ? Math.max(pw, ph) : Math.min(pw, ph);
+    const pageH    = isLand ? Math.min(pw, ph) : Math.max(pw, ph);
+    const win = window.open('', '_blank');
+    if (!win) { alert('Autoriser les popups pour imprimer.'); return; }
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${this.drawing.title || 'MetalSketch'}</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:${pageW}mm ${pageH}mm;margin:0}
+body{width:${pageW}mm;height:${pageH}mm;overflow:hidden}
+svg{width:${pageW}mm;height:${pageH}mm;display:block}
+</style></head><body>${svg}</body></html>`);
+    win.document.close();
+    setTimeout(() => { win.focus(); win.print(); }, 600);
   }
 
   _saveJSON() {

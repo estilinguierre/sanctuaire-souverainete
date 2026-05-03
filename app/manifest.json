@@ -1,0 +1,19 @@
+{
+  "name": "MetalSketch — Tracé & Développés",
+  "short_name": "MetalSketch",
+  "description": "Logiciel de tracé et développés de tôlerie : cotes, angles, cylindres, cônes, coudes segmentés, transitions.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#12121e",
+  "theme_color": "#12121e",
+  "lang": "fr",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Nouveau dessin", "url": "./index.html", "description": "Ouvrir un nouveau dessin vierge" }
+  ]
+}

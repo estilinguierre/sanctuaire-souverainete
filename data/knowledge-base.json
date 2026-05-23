@@ -550,6 +550,116 @@
     }
   ],
 
+  "communautes_en_ligne": [
+    {
+      "id": "framasoft",
+      "nom": "Framasoft",
+      "description": "Association française qui promeut le logiciel libre et propose des alternatives aux GAFAM. Héberge PeerTube, Mobilizon, et de nombreux outils libres.",
+      "url": "https://framasoft.org",
+      "outils": ["PeerTube (vidéo libre)", "Mobilizon (événements)", "Framapad (pad collaboratif)", "Framadate (sondages)", "Framatalk (visioconférence)"],
+      "tags": ["open source", "vie privée", "alternatives", "France"]
+    },
+    {
+      "id": "april",
+      "nom": "April.org",
+      "description": "Association française de promotion et de défense du logiciel libre. Militant pour la souveraineté numérique depuis 1996.",
+      "url": "https://april.org",
+      "tags": ["open source", "logiciel libre", "militantisme", "France"]
+    },
+    {
+      "id": "reddit-selfhosted",
+      "nom": "r/selfhosted",
+      "description": "Communauté Reddit dédiée à l'hébergement personnel de services. Ressource essentielle pour l'autonomie numérique.",
+      "url": "https://reddit.com/r/selfhosted",
+      "tags": ["self-hosting", "autonomie numérique", "communauté"]
+    },
+    {
+      "id": "reddit-privacy",
+      "nom": "r/privacy",
+      "description": "Communauté Reddit sur la vie privée numérique. Conseils, actualités et outils.",
+      "url": "https://reddit.com/r/privacy",
+      "tags": ["vie privée", "sécurité", "communauté"]
+    },
+    {
+      "id": "chatons",
+      "nom": "CHATONS",
+      "description": "Collectif d'Hébergeurs Alternatifs, Transparents, Ouverts, Neutres et Solidaires. Réseau d'hébergeurs français alternatifs.",
+      "url": "https://chatons.org",
+      "tags": ["hébergement", "alternatives", "France", "décentralisation"]
+    }
+  ],
+
+  "outils_souverainete_numerique": [
+    {
+      "categorie": "Communication",
+      "outils": [
+        {"nom": "Signal", "description": "Messagerie chiffrée de bout en bout, open source", "gratuit": true, "url": "https://signal.org"},
+        {"nom": "ProtonMail", "description": "Email chiffré, serveurs en Suisse", "gratuit": true, "url": "https://proton.me"},
+        {"nom": "SimpleX Chat", "description": "Messagerie sans identifiant (anonymat maximal)", "gratuit": true}
+      ]
+    },
+    {
+      "categorie": "Navigateur & Recherche",
+      "outils": [
+        {"nom": "Firefox", "description": "Navigateur open source de Mozilla, fortement personnalisable", "gratuit": true},
+        {"nom": "Brave", "description": "Navigateur bloquant les publicités et traceurs par défaut", "gratuit": true},
+        {"nom": "DuckDuckGo", "description": "Moteur de recherche sans tracking", "gratuit": true},
+        {"nom": "Startpage", "description": "Proxy Google respectueux de la vie privée, serveurs en Europe", "gratuit": true}
+      ]
+    },
+    {
+      "categorie": "Mots de passe",
+      "outils": [
+        {"nom": "Bitwarden", "description": "Gestionnaire de mots de passe open source, auto-hébergeable", "gratuit": true},
+        {"nom": "KeePassXC", "description": "Gestionnaire local, aucune donnée en ligne", "gratuit": true}
+      ]
+    },
+    {
+      "categorie": "Cloud & Fichiers",
+      "outils": [
+        {"nom": "Nextcloud", "description": "Suite collaborative open source, auto-hébergeable. Alternative à Google Drive/Office 365", "gratuit": true},
+        {"nom": "Syncthing", "description": "Synchronisation de fichiers P2P sans serveur central", "gratuit": true}
+      ]
+    },
+    {
+      "categorie": "VPN & Anonymat",
+      "outils": [
+        {"nom": "Mullvad", "description": "VPN sans logs, paiement en espèces possible", "payant": true},
+        {"nom": "ProtonVPN", "description": "VPN avec version gratuite, open source", "gratuit_partiel": true},
+        {"nom": "Tor Browser", "description": "Navigateur anonyme via le réseau Tor", "gratuit": true}
+      ]
+    },
+    {
+      "categorie": "Hébergement personnel",
+      "outils": [
+        {"nom": "Raspberry Pi", "description": "Mini-ordinateur pour héberger ses propres services à la maison", "payant": true},
+        {"nom": "YunoHost", "description": "Système simplifié pour auto-héberger des applications", "gratuit": true},
+        {"nom": "Umbrel", "description": "Serveur personnel pour Bitcoin node, cloud, etc.", "gratuit": true}
+      ]
+    }
+  ],
+
+  "sources_information_libres": [
+    {
+      "nom": "Wikiberal.org",
+      "description": "Encyclopédie libérale en français sur la souveraineté, le libertarisme et la liberté individuelle",
+      "url": "https://wikiberal.org",
+      "langue": "français"
+    },
+    {
+      "nom": "Revue Ballast",
+      "description": "Revue intellectuelle française traitant des questions de liberté, autonomie et souveraineté populaire",
+      "url": "https://revue-ballast.fr",
+      "langue": "français"
+    },
+    {
+      "nom": "Librealire.org",
+      "description": "Ressources sur les logiciels libres et la souveraineté numérique en français",
+      "url": "https://librealire.org",
+      "langue": "français"
+    }
+  ],
+
   "glossaire": {
     "souverainete": "Autorité suprême sur soi-même, ses biens et ses actions. Dans le contexte individuel, c'est la reconnaissance que chaque personne est la seule autorité légitime sur sa propre vie.",
     "autonomie": "Capacité à se gouverner soi-même, à prendre ses propres décisions et à subvenir à ses propres besoins sans dépendance critique aux systèmes externes.",
@@ -569,6 +679,17 @@
     "souverainete-alimentaire": "Capacité à contrôler et à sécuriser son alimentation, que ce soit par la production personnelle, les achats directs aux producteurs ou les réserves.",
     "resilience-communautaire": "Capacité d'un groupe ou d'une communauté à traverser des crises ensemble en s'appuyant sur ses ressources et ses réseaux internes.",
     "agent-ia": "Programme d'intelligence artificielle capable de prendre des décisions et d'effectuer des actions de manière autonome pour atteindre un objectif défini.",
-    "assistant-vocal": "Système informatique capable de comprendre la parole humaine, de la traiter et de répondre vocalement, permettant une interaction naturelle sans clavier ni écran."
+    "assistant-vocal": "Système informatique capable de comprendre la parole humaine, de la traiter et de répondre vocalement, permettant une interaction naturelle sans clavier ni écran.",
+    "libertarisme": "Philosophie politique valorisant la liberté individuelle maximale. Le fondement est l'individualisme : l'individu, et lui seul, est responsable de ses actes. S'oppose à la coercition étatique au profit de la coopération libre et volontaire.",
+    "gafam": "Acronyme désignant les géants technologiques américains : Google, Apple, Facebook (Meta), Amazon, Microsoft. Symbole de la concentration du pouvoir numérique que la souveraineté numérique cherche à contourner.",
+    "p2p": "Pair-à-pair (peer-to-peer). Architecture réseau dans laquelle chaque nœud peut être à la fois client et serveur, sans dépendance à un serveur central. Plus résilient et plus souverain que les architectures centralisées.",
+    "chiffrement": "Technique de transformation de données pour les rendre illisibles sans la clé appropriée. Base technique de la vie privée numérique et de la souveraineté des communications.",
+    "logiciel-libre": "Logiciel dont les utilisateurs ont la liberté de l'exécuter, l'étudier, le modifier et le redistribuer. Les quatre libertés fondamentales définies par la Free Software Foundation.",
+    "permaculture": "Système de conception agricole et sociale basé sur les patterns naturels. S'applique aussi aux systèmes humains pour créer des sociétés durables et auto-suffisantes.",
+    "stoicisme": "Philosophie antique grecque enseignant que le bonheur vient du contrôle de soi et de la distinction entre ce qui dépend de nous (nos pensées, décisions) et ce qui n'en dépend pas. Base philosophique puissante pour la souveraineté personnelle.",
+    "minimalisme": "Philosophie de vie consistant à ne posséder et consommer que ce qui est réellement nécessaire. Réduit les dépendances matérielles et financières, augmentant ainsi la liberté d'action.",
+    "websocket": "Protocole de communication bidirectionnel en temps réel entre un client et un serveur. Utilisé dans l'assistant vocal ESP32 pour un streaming audio à très faible latence.",
+    "esp32": "Microcontrôleur WiFi/Bluetooth développé par Espressif. Cœur du dispositif d'assistant vocal embarqué du projet, capable de capturer la voix et de jouer des réponses audio.",
+    "raspberry-pi": "Mini-ordinateur à bas coût et faible consommation. Peut héberger l'assistant vocal Souverain en mode serveur local, sans dépendance au cloud."
   }
 }

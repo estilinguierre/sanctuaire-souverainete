@@ -83,6 +83,92 @@ Ce module permet d'utiliser un ESP32 comme assistant vocal physique, communiquan
 
 ---
 
+## Architecture WebSocket (v2.0)
+
+### WebSocket vs HTTP : pourquoi WebSocket ?
+
+Le firmware v2.0 utilise **WebSocket** (RFC 6455) au lieu de requêtes HTTP pour communiquer avec le Raspberry Pi. Cette décision technique apporte plusieurs avantages majeurs :
+
+| Critère | HTTP (ancienne version) | WebSocket (v2.0) |
+|---------|------------------------|------------------|
+| Connexion | Nouvelle connexion par requête | Connexion persistante unique |
+| Latence | 50-200ms (handshake TCP+HTTP) | < 5ms (canal ouvert en permanence) |
+| Audio streaming | Impossible (tout envoyer en une fois) | Natif (chunks en temps réel) |
+| Réponse serveur | Polling nécessaire | Push serveur immédiat |
+| Overhead réseau | En-têtes HTTP répétés | Minimal (2-14 octets par trame) |
+| Bidirectionnel | Non (requête-réponse) | Oui (full-duplex) |
+
+Grâce au WebSocket, l'ESP32 envoie l'audio en **streaming** pendant que l'utilisateur parle, ce qui réduit la latence totale de plusieurs secondes.
+
+### Librairies Arduino nécessaires
+
+Pour compiler ce firmware, vous avez besoin d'installer **une seule librairie tierce** :
+
+| Librairie | Auteur | Installation |
+|-----------|--------|--------------|
+| **arduinoWebSockets** | Markus Sattler (Links2004) | Arduino Library Manager |
+
+Les autres librairies utilisées (`WiFi.h`, `driver/i2s.h`, `driver/dac.h`) font partie du **SDK ESP32 Arduino** et sont disponibles automatiquement dès que vous installez le support ESP32 dans Arduino IDE.
+
+#### Installation depuis Arduino Library Manager
+
+1. Ouvrez Arduino IDE
+2. Menu **Outils** → **Gérer les bibliothèques...**
+3. Dans la barre de recherche, tapez : `WebSockets`
+4. Recherchez la librairie **"WebSockets"** par **Markus Sattler**
+5. Cliquez sur **Installer** (version 2.3.x ou supérieure recommandée)
+
+> La librairie s'appelle "arduinoWebSockets" sur GitHub mais apparaît simplement comme "WebSockets" dans le Library Manager.
+
+### Protocole WebSocket : diagramme de séquence
+
+```
+ESP32                                    Raspberry Pi (server.py)
+  |                                              |
+  |--- Connexion TCP + WebSocket handshake ----->|
+  |<-- Connexion établie (WStype_CONNECTED) -----|
+  |                                              |
+  |--- "ping" (texte) ------------------------->|  Keepalive initial
+  |<-- "pong" (texte) --------------------------|
+  |                                              |
+  |--- [Bouton GPIO26 pressé] ------------------|
+  |--- "pause" (texte) ------------------------>|  Reset buffer audio
+  |<-- "ready" (texte) --------------------------|
+  |                                              |
+  |--- [chunk 1] (binaire, PCM16, 2048 bytes) ->|  Streaming audio
+  |--- [chunk 2] (binaire, PCM16, 2048 bytes) ->|  en temps réel
+  |--- [chunk 3] (binaire, PCM16, 2048 bytes) ->|
+  |    ...                                       |
+  |--- [chunk N] (binaire, PCM16, 2048 bytes) ->|
+  |                                              |
+  |--- [Bouton GPIO26 relâché] -----------------|
+  |--- "stop" (texte) ------------------------->|  Fin de l'audio
+  |<-- "processing" (texte) --------------------|  Pipeline en cours
+  |                                              |
+  |         [STT : PCM16 → texte]               |
+  |         [Claude : texte → réponse]           |
+  |         [TTS : texte → WAV → PCM8]          |
+  |                                              |
+  |<-- [réponse audio] (binaire, PCM8) ---------|  Audio de réponse
+  |                                              |
+  |--- [Lecture DAC : GPIO25, 16kHz] -----------|
+  |                                              |
+  |--- "ping" (texte, toutes les 20s) -------->|  Keepalive continu
+  |<-- "pong" (texte) --------------------------|
+```
+
+### Format des données audio
+
+| Direction | Format | Fréquence | Résolution | Canaux |
+|-----------|--------|-----------|------------|--------|
+| ESP32 → Pi | PCM brut (sans en-tête) | 16 000 Hz | 16 bits signé | Mono |
+| Pi → ESP32 | PCM brut (sans en-tête) | 16 000 Hz | 8 bits unsigned | Mono |
+
+L'ESP32 lit le microphone INMP441 en 32 bits et convertit en 16 bits (`>>16`) avant l'envoi.
+Le Raspberry Pi envoie du PCM 8 bits (0-255) directement lisible par le DAC interne de l'ESP32.
+
+---
+
 ## Configuration du firmware
 
 Ouvrez `sanctuaire_assistant.ino` et modifiez les constantes en début de fichier :

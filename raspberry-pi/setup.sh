@@ -120,6 +120,74 @@ else
     succes "Paquets Python installés."
 fi
 
+# ─── Installation faster-whisper (STT local) ──────────────────────────────────
+info "Installation de faster-whisper (STT local hors-ligne)..."
+pip3 install faster-whisper
+succes "faster-whisper installé."
+
+# ─── Installation Piper TTS (synthèse vocale neurale locale) ──────────────────
+info "Téléchargement et installation de Piper TTS..."
+
+# Création des répertoires nécessaires
+mkdir -p "$SCRIPT_DIR/bin/piper" "$SCRIPT_DIR/voices"
+
+# Détection de l'architecture du processeur
+PIPER_VERSION="2023.11.14-2"
+PIPER_ARCH=$(uname -m)
+
+# Normalisation de l'architecture pour Piper :
+#   armv7l  → pour Raspberry Pi 3 / Pi 4 (32 bits OS)
+#   aarch64 → pour Raspberry Pi 4 / Pi 5 (64 bits OS)
+#   x86_64  → pour PC/VM de test
+info "Architecture détectée : $PIPER_ARCH"
+
+PIPER_URL="https://github.com/rhasspy/piper/releases/download/${PIPER_VERSION}/piper_${PIPER_ARCH}.tar.gz"
+info "Téléchargement Piper depuis : $PIPER_URL"
+
+if wget -q --timeout=60 "$PIPER_URL" -O /tmp/piper.tar.gz 2>/dev/null; then
+    # Extraction dans le répertoire bin/piper/
+    tar -xzf /tmp/piper.tar.gz -C "$SCRIPT_DIR/bin/piper/"
+    rm -f /tmp/piper.tar.gz
+
+    # Rendre le binaire exécutable
+    chmod +x "$SCRIPT_DIR/bin/piper/piper" 2>/dev/null || true
+
+    if [ -f "$SCRIPT_DIR/bin/piper/piper" ]; then
+        succes "Piper TTS installé dans $SCRIPT_DIR/bin/piper/"
+    else
+        attention "Piper TTS extrait mais binaire non trouvé (vérifiez l'archive)"
+    fi
+else
+    attention "Téléchargement Piper échoué. Vérifiez la connexion internet et l'architecture."
+    attention "URL tentée : $PIPER_URL"
+    attention "Fallback : espeak-ng sera utilisé pour la synthèse vocale."
+fi
+
+# ─── Téléchargement de la voix française Piper (fr_FR-siwis-low) ──────────────
+info "Téléchargement de la voix française Piper (fr_FR-siwis-low)..."
+
+VOICE_BASE="https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/low"
+VOICE_ONNX="$SCRIPT_DIR/voices/fr_FR-siwis-low.onnx"
+VOICE_JSON="$SCRIPT_DIR/voices/fr_FR-siwis-low.onnx.json"
+
+if wget -q --timeout=120 "${VOICE_BASE}/fr_FR-siwis-low.onnx" -O "$VOICE_ONNX" 2>/dev/null; then
+    succes "Modèle de voix téléchargé : fr_FR-siwis-low.onnx"
+else
+    attention "Téléchargement du modèle de voix échoué."
+    attention "Téléchargez manuellement depuis HuggingFace : rhasspy/piper-voices"
+fi
+
+if wget -q --timeout=30 "${VOICE_BASE}/fr_FR-siwis-low.onnx.json" -O "$VOICE_JSON" 2>/dev/null; then
+    succes "Configuration de voix téléchargée : fr_FR-siwis-low.onnx.json"
+else
+    attention "Téléchargement de la configuration de voix échoué."
+fi
+
+echo
+info "Pour utiliser Piper TTS : export USE_LOCAL_TTS=True"
+info "Pour utiliser faster-whisper : export USE_LOCAL_STT=True"
+echo
+
 # ─── Vérification des imports Python ─────────────────────────────────────────
 info "Vérification des imports Python..."
 
@@ -127,6 +195,9 @@ python3 -c "import anthropic; print('  ✓ anthropic')" || erreur "Import anthro
 python3 -c "import speech_recognition; print('  ✓ speech_recognition')" || erreur "Import speech_recognition échoué"
 python3 -c "import pyttsx3; print('  ✓ pyttsx3')" || attention "Import pyttsx3 échoué (fallback espeak-ng disponible)"
 python3 -c "import flask; print('  ✓ flask')" || erreur "Import flask échoué"
+python3 -c "import websockets; print('  ✓ websockets')" || erreur "Import websockets échoué"
+python3 -c "import faster_whisper; print('  ✓ faster_whisper')" || attention "Import faster_whisper échoué (STT Google sera utilisé)"
+python3 -c "import numpy; print('  ✓ numpy')" || attention "Import numpy échoué"
 
 # ─── Configuration du service systemd (optionnel) ─────────────────────────────
 info "Création d'un service systemd (optionnel)..."

@@ -1,0 +1,574 @@
+{
+  "projet": {
+    "nom": "Sanctuaire de Souveraineté",
+    "url": "https://estilinguierre.github.io/sanctuaire-souverainete/",
+    "github": "https://github.com/estilinguierre/sanctuaire-souverainete",
+    "description": "Le Sanctuaire de Souveraineté est un espace numérique dédié à l'exploration et à la promotion des concepts de souveraineté personnelle, de liberté individuelle, d'autonomie et de responsabilité. C'est un lieu de réflexion, d'apprentissage et d'échange pour tous ceux qui souhaitent reprendre le contrôle de leur vie.",
+    "mission": "Permettre à chacun de comprendre et d'exercer sa souveraineté dans toutes les dimensions de sa vie : personnelle, numérique, financière, intellectuelle et sociale.",
+    "vision": "Un monde où chaque individu est pleinement conscient de sa liberté et de sa responsabilité, capable de construire sa vie selon ses propres valeurs, sans dépendance excessive aux systèmes centralisés.",
+    "statut": "Projet en développement actif",
+    "createur": {
+      "profession": "Soudeur",
+      "description": "Artisan de métier, curieux et passionné par les idées de liberté et d'autonomie personnelle. Sans expérience en programmation, il construit ce projet grâce à la puissance des outils IA et à l'entraide communautaire.",
+      "philosophie": "La souveraineté commence par l'acte de créer soi-même, même sans maîtriser tous les outils. Les obstacles techniques ne sont pas des murs mais des portes à ouvrir avec les bons alliés.",
+      "approche": "Autodidaxie assistée par IA - apprendre en faisant, avec la technologie comme amplificateur de capacités humaines"
+    },
+    "date_creation": "2026",
+    "technologies": ["HTML", "CSS", "JavaScript", "GitHub Pages", "Claude AI", "Genspark AI"]
+  },
+
+  "principes": [
+    {
+      "id": "souverainete-personnelle",
+      "titre": "Souveraineté Personnelle",
+      "sous_titre": "Être maître de soi-même",
+      "description": "La souveraineté personnelle est le principe fondateur selon lequel chaque individu est le propriétaire légitime de sa propre vie, de son corps, de son esprit et des fruits de son travail. Personne ne peut exercer une autorité légitime sur vous sans votre consentement explicite.",
+      "points_cles": [
+        "Vous êtes la seule autorité sur votre propre existence",
+        "Vos droits naturels sont inaliénables et précèdent toute institution",
+        "La responsabilité est le corollaire inévitable de la liberté",
+        "Nul ne peut vous imposer une obligation que vous n'avez pas librement acceptée",
+        "Votre vie vous appartient entièrement - vos succès comme vos échecs"
+      ],
+      "pratiques": [
+        "Prendre des décisions en accord avec ses propres valeurs",
+        "Refuser les injonctions sociales qui ne correspondent pas à sa vision",
+        "Assumer pleinement les conséquences de ses choix",
+        "Développer une connaissance de soi profonde"
+      ],
+      "citations": [
+        "\"L'homme est condamné à être libre\" - Jean-Paul Sartre",
+        "\"Connais-toi toi-même\" - Socrate",
+        "\"La liberté, c'est la responsabilité. C'est pourquoi les hommes la redoutent\" - George Bernard Shaw"
+      ],
+      "tags": ["liberté", "autonomie", "responsabilité", "identité", "droits naturels"]
+    },
+    {
+      "id": "liberte-individuelle",
+      "titre": "Liberté Individuelle",
+      "sous_titre": "Agir sans contrainte illégitime",
+      "description": "La liberté individuelle est la capacité d'agir selon sa propre volonté dans toutes les sphères de sa vie, tant que l'on ne porte pas atteinte à la liberté équivalente d'autrui. Elle englobe la liberté de pensée, d'expression, d'association, de mouvement et d'action.",
+      "points_cles": [
+        "La liberté s'arrête là où commence celle des autres",
+        "Toute restriction de liberté doit être justifiée et consentie",
+        "La liberté négative (absence de contrainte) est distincte de la liberté positive (capacité d'agir)",
+        "Une liberté non exercée s'atrophie",
+        "La liberté implique d'accepter que les autres fassent des choix différents"
+      ],
+      "pratiques": [
+        "Examiner chaque règle ou norme sous l'angle de sa légitimité",
+        "Exercer activement ses libertés pour les préserver",
+        "Défendre la liberté des autres même quand on n'approuve pas leurs choix",
+        "Résister aux empiètements progressifs sur les libertés individuelles"
+      ],
+      "citations": [
+        "\"Ceux qui sacrifient la liberté pour la sécurité ne méritent ni l'une ni l'autre\" - Benjamin Franklin",
+        "\"Je ne suis pas libre tant qu'un seul homme ou une seule femme est enchaîné(e)\" - Emma Goldman"
+      ],
+      "tags": ["liberté", "droits", "expression", "action", "autonomie"]
+    },
+    {
+      "id": "responsabilite",
+      "titre": "Responsabilité Radicale",
+      "sous_titre": "Assumer pleinement sa vie",
+      "description": "La responsabilité radicale est l'acceptation totale que vous êtes l'auteur principal de votre vie. Cela ne nie pas l'influence des circonstances extérieures, mais affirme que votre réponse à ces circonstances reste toujours de votre ressort. C'est le revers nécessaire de la liberté.",
+      "points_cles": [
+        "Vous ne pouvez pas contrôler tout ce qui vous arrive, mais vous contrôlez toujours votre réponse",
+        "La mentalité victime est incompatible avec la souveraineté",
+        "Assumer ses erreurs est un acte de force, pas de faiblesse",
+        "La responsabilité précède le pouvoir d'agir",
+        "Blâmer les autres vous prive de votre capacité à changer les choses"
+      ],
+      "pratiques": [
+        "Identifier sa part de responsabilité dans chaque situation difficile",
+        "Passer de 'pourquoi cela m'arrive-t-il?' à 'que puis-je faire?'",
+        "Honorer ses engagements envers soi-même et les autres",
+        "Reconnaître et corriger ses erreurs sans se flageller"
+      ],
+      "citations": [
+        "\"Entre stimulus et réponse, il y a un espace. Dans cet espace réside notre liberté de choisir notre réponse\" - Viktor Frankl",
+        "\"La grande question ce n'est pas ce que le monde peut faire pour vous, mais ce que vous pouvez faire\" - adaptation de JFK"
+      ],
+      "tags": ["responsabilité", "proactivité", "pouvoir personnel", "intégrité"]
+    },
+    {
+      "id": "autonomie",
+      "titre": "Autonomie et Auto-Suffisance",
+      "sous_titre": "Réduire sa dépendance aux systèmes",
+      "description": "L'autonomie est la capacité à subvenir à ses besoins essentiels sans dépendance critique aux systèmes centralisés ou à l'autorité d'autrui. Elle ne signifie pas l'isolement, mais la résilience : pouvoir fonctionner même quand les systèmes habituels défaillent.",
+      "points_cles": [
+        "L'auto-suffisance partielle est un objectif réaliste et précieux",
+        "Diversifier ses sources (nourriture, énergie, revenus, information) renforce la résilience",
+        "Savoir faire soi-même ce que l'on sous-traite entièrement réduit la vulnérabilité",
+        "L'autonomie n'est pas l'autarcie : coopérer librement est différent de dépendre",
+        "Les compétences manuelles et pratiques sont une forme de richesse réelle"
+      ],
+      "pratiques": [
+        "Apprendre des compétences pratiques : jardinage, réparation, cuisine de base, soins",
+        "Maintenir des réserves alimentaires et énergétiques",
+        "Diversifier ses revenus pour ne pas dépendre d'une seule source",
+        "Maîtriser ses outils numériques et comprendre leur fonctionnement",
+        "Participer à des réseaux d'entraide locaux"
+      ],
+      "citations": [
+        "\"Qui ne maîtrise pas son alimentation, son logement et son énergie dépend de ceux qui les contrôlent\"",
+        "\"La vraie richesse, c'est la capacité à vivre de manière indépendante\""
+      ],
+      "tags": ["autonomie", "résilience", "auto-suffisance", "compétences", "préparation"]
+    },
+    {
+      "id": "autodidaxie",
+      "titre": "Autodidaxie et Apprentissage Continu",
+      "sous_titre": "Apprendre par soi-même, tout au long de la vie",
+      "description": "L'autodidaxie est l'art d'apprendre par soi-même, en dehors des institutions formelles, en suivant sa propre curiosité et ses propres objectifs. À l'ère d'internet et des outils IA, elle n'a jamais été aussi accessible. C'est l'une des formes les plus pures de souveraineté intellectuelle.",
+      "points_cles": [
+        "Le savoir est aujourd'hui plus accessible que jamais dans l'histoire humaine",
+        "La curiosité est le moteur le plus puissant de l'apprentissage",
+        "On apprend mieux ce qui a du sens pour soi",
+        "L'échec est une méthode d'apprentissage, pas un obstacle",
+        "Les outils IA démocratisent l'accès au savoir et à la création"
+      ],
+      "pratiques": [
+        "Suivre sa curiosité sans attendre la permission ou la validation d'un système",
+        "Utiliser les ressources gratuites : livres, internet, vidéos, podcasts, IA",
+        "Apprendre en faisant : les projets concrets accélèrent l'apprentissage",
+        "Partager ce que l'on apprend pour consolider ses connaissances",
+        "Remettre en question les sources et développer son esprit critique"
+      ],
+      "exemple_concret": "Ce projet lui-même est un exemple d'autodidaxie : un soudeur sans formation en programmation qui crée un site web, un assistant vocal et un firmware IoT grâce aux outils IA et à la communauté.",
+      "citations": [
+        "\"Les autodidactes ont l'avantage de ne pas savoir ce qui est 'impossible'\"",
+        "\"Éduquer n'est pas remplir un seau, mais allumer un feu\" - William Butler Yeats"
+      ],
+      "tags": ["apprentissage", "autodidaxie", "curiosité", "compétences", "IA"]
+    },
+    {
+      "id": "technologie-service-humain",
+      "titre": "Technologie au Service de l'Humain",
+      "sous_titre": "Maîtriser les outils plutôt qu'en être esclave",
+      "description": "La technologie est un amplificateur de capacités humaines. Bien utilisée, elle libère du temps, démocratise le savoir et permet à chacun de créer ce qui était réservé aux spécialistes. Mal utilisée, elle devient une dépendance, un vecteur de contrôle et d'aliénation.",
+      "points_cles": [
+        "La technologie doit servir vos objectifs, pas l'inverse",
+        "Comprendre les outils que l'on utilise réduit la dépendance",
+        "Les logiciels libres et open source favorisent la souveraineté numérique",
+        "L'IA peut amplifier les capacités de chacun, y compris des non-experts",
+        "La technologie décentralisée (blockchain, P2P, local-first) est plus souveraine"
+      ],
+      "pratiques": [
+        "Préférer les outils dont vous comprenez le fonctionnement",
+        "Utiliser des alternatives open source quand c'est possible",
+        "Garder le contrôle de vos données",
+        "Utiliser l'IA comme assistant, pas comme décideur",
+        "Apprendre les bases du numérique pour ne pas être dépendant d'experts"
+      ],
+      "citations": [
+        "\"La technologie la plus profonde est celle qui disparaît\" - Mark Weiser",
+        "\"Ce que tu ne contrôles pas te contrôle\""
+      ],
+      "tags": ["technologie", "IA", "outils", "numérique", "open source", "autonomie"]
+    },
+    {
+      "id": "communaute",
+      "titre": "Communauté et Coopération Libre",
+      "sous_titre": "S'associer sans se soumettre",
+      "description": "La souveraineté individuelle n'est pas l'isolement. Les humains sont des êtres sociaux et la coopération volontaire est l'une des formes les plus puissantes de création collective. La différence essentielle : la coopération est choisie, la soumission est imposée.",
+      "points_cles": [
+        "La coopération volontaire multiplie les capacités individuelles",
+        "Une communauté saine respecte la souveraineté de chacun de ses membres",
+        "L'entraide est une stratégie de résilience, pas une faiblesse",
+        "Les réseaux décentralisés sont plus résilients que les hiérarchies centralisées",
+        "Le partage de savoir est l'une des formes les plus précieuses de coopération"
+      ],
+      "pratiques": [
+        "Participer à des communautés qui partagent vos valeurs",
+        "Donner avant de recevoir : contribuer au bien commun",
+        "Construire des réseaux locaux de confiance et d'entraide",
+        "Partager ses apprentissages et ses expériences",
+        "Choisir ses associations librement et pouvoir les quitter librement"
+      ],
+      "citations": [
+        "\"Seul on va plus vite, ensemble on va plus loin\" - Proverbe africain",
+        "\"Le don ne s'épuise pas : en partageant le savoir, on ne le perd pas, on le multiplie\""
+      ],
+      "tags": ["communauté", "coopération", "entraide", "réseau", "partage"]
+    },
+    {
+      "id": "souverainete-numerique",
+      "titre": "Souveraineté Numérique",
+      "sous_titre": "Maîtriser son identité et ses données en ligne",
+      "description": "La souveraineté numérique est la capacité à contrôler sa présence, ses données et ses activités dans l'espace numérique. À l'ère où nos vies sont de plus en plus liées au monde numérique, c'est une extension essentielle de la souveraineté personnelle.",
+      "points_cles": [
+        "Vos données vous appartiennent : elles ne devraient pas être des marchandises",
+        "La vie privée n'est pas quelque chose à cacher, c'est un droit fondamental",
+        "Les plateformes centralisées ont des intérêts qui peuvent diverger des vôtres",
+        "Avoir plusieurs points d'accès et alternatives réduit la dépendance",
+        "Héberger soi-même (self-hosting) est la forme la plus pure de souveraineté numérique"
+      ],
+      "pratiques": [
+        "Utiliser des services qui respectent la vie privée (Signal, ProtonMail, etc.)",
+        "Chiffrer ses communications sensibles",
+        "Contrôler ses mots de passe avec un gestionnaire fiable",
+        "Faire des sauvegardes régulières de ses données importantes",
+        "Comprendre les conditions d'utilisation des services que l'on utilise",
+        "Utiliser des noms de domaine et hébergements personnels pour ses projets"
+      ],
+      "outils_recommandes": [
+        "Signal (messagerie chiffrée)",
+        "ProtonMail (email chiffré)",
+        "Bitwarden (gestionnaire de mots de passe open source)",
+        "GitHub Pages (hébergement sous votre contrôle)",
+        "VPN de confiance pour la navigation"
+      ],
+      "tags": ["numérique", "vie privée", "données", "chiffrement", "self-hosting"]
+    },
+    {
+      "id": "souverainete-financiere",
+      "titre": "Souveraineté Financière",
+      "sous_titre": "Reprendre le contrôle de sa vie économique",
+      "description": "La souveraineté financière est la capacité à contrôler sa vie économique : ses revenus, ses dépenses, son épargne et ses investissements. Elle implique de ne pas être à la merci d'un seul employeur, d'une seule banque ou d'un seul système économique.",
+      "points_cles": [
+        "La dépendance financière est une forme de servitude volontaire",
+        "L'épargne et les réserves sont la fondation de la liberté d'action",
+        "Diversifier ses revenus réduit la vulnérabilité",
+        "Comprendre le fonctionnement de la monnaie et de l'économie est un acte de souveraineté",
+        "Moins on a de besoins superflus, plus on est libre"
+      ],
+      "pratiques": [
+        "Construire un fonds d'urgence (3-6 mois de dépenses)",
+        "Développer plusieurs sources de revenus",
+        "Réduire ses dettes et éviter les pièges du crédit",
+        "Investir dans des actifs qui vous appartiennent réellement",
+        "Vivre en dessous de ses moyens pour construire des réserves",
+        "Apprendre les bases de la finance personnelle"
+      ],
+      "citations": [
+        "\"Celui qui emprunte est esclave de celui qui prête\" - Proverbes 22:7",
+        "\"La richesse consiste bien plus dans la jouissance que dans la possession\" - Aristote"
+      ],
+      "tags": ["finance", "épargne", "revenus", "liberté économique", "indépendance"]
+    },
+    {
+      "id": "souverainete-intellectuelle",
+      "titre": "Souveraineté Intellectuelle",
+      "sous_titre": "Penser par soi-même",
+      "description": "La souveraineté intellectuelle est la capacité à former ses propres opinions à partir d'une analyse critique des informations disponibles, plutôt que d'adopter passivement les opinions imposées par les médias, les institutions ou les groupes sociaux. C'est l'exercice de la raison comme outil premier de navigation dans le monde.",
+      "points_cles": [
+        "Aucune source n'est absolument fiable : toujours vérifier et croiser",
+        "Les biais cognitifs nous affectent tous : les connaître permet de s'en défendre",
+        "La pensée critique s'apprend et se pratique",
+        "Changer d'avis face à de nouvelles preuves est un signe de force intellectuelle",
+        "Se méfier des certitudes absolues et des vérités 'officielles' non questionnées"
+      ],
+      "pratiques": [
+        "Lire des sources diverses et contradictoires sur les sujets importants",
+        "Identifier ses propres biais cognitifs",
+        "Distinguer les faits des opinions et des interprétations",
+        "Questionner les consensus et chercher les dissidences argumentées",
+        "Prendre le temps de réfléchir avant de former une opinion définitive",
+        "Être capable d'exposer l'argument adverse de manière juste avant de le réfuter"
+      ],
+      "citations": [
+        "\"La pensée critique est une vaccination contre l'endoctrinement\"",
+        "\"Ose savoir ! Aie le courage de te servir de ton propre entendement\" - Emmanuel Kant",
+        "\"Il vaut mieux avoir tort par soi-même que raison par autrui\" - Jean-Jacques Rousseau"
+      ],
+      "tags": ["pensée critique", "raison", "indépendance d'esprit", "information", "biais"]
+    }
+  ],
+
+  "philosophie": {
+    "fondement": "Le Sanctuaire de Souveraineté repose sur une conviction simple et profonde : chaque être humain est né libre et capable. Les systèmes de dépendance, de contrôle et de conformité sont des constructions humaines, pas des fatalités. Il est possible, et désirable, de reprendre le contrôle de sa vie.",
+    "approche": "Ce projet adopte une approche pragmatique et non dogmatique. Il ne s'agit pas de rejeter tout ce qui est collectif ou institutionnel, mais d'exercer un discernement conscient : choisir délibérément plutôt que subir passivement.",
+    "valeurs_centrales": [
+      {
+        "valeur": "Liberté",
+        "explication": "La liberté est la condition première de l'épanouissement humain. Elle doit être défendue activement."
+      },
+      {
+        "valeur": "Responsabilité",
+        "explication": "La liberté sans responsabilité est un mirage. Assumer la responsabilité de sa vie est un acte de dignité."
+      },
+      {
+        "valeur": "Authenticité",
+        "explication": "Vivre selon ses propres valeurs et non selon les attentes des autres."
+      },
+      {
+        "valeur": "Curiosité",
+        "explication": "L'apprentissage continu est le moteur de la croissance et de l'adaptation."
+      },
+      {
+        "valeur": "Résilience",
+        "explication": "La capacité à traverser l'adversité et à s'adapter sans perdre son essence."
+      },
+      {
+        "valeur": "Intégrité",
+        "explication": "L'alignement entre valeurs, paroles et actions."
+      }
+    ],
+    "ce_que_nous_ne_sommes_pas": "Le Sanctuaire de Souveraineté n'est pas un mouvement politique, pas une invitation à l'isolationnisme, pas un appel à la désobéissance civile systématique, et pas un espace de théories du complot. C'est un espace de réflexion, de partage et d'action personnelle.",
+    "invitation": "Que vous soyez artisan, salarié, entrepreneur, parent ou étudiant, la souveraineté est accessible à tous. Elle commence par un premier pas : décider de penser par soi-même."
+  },
+
+  "outils": [
+    {
+      "id": "claude-ai",
+      "nom": "Claude AI (Anthropic)",
+      "categorie": "Intelligence Artificielle",
+      "description": "Assistant IA développé par Anthropic, utilisé pour la rédaction, la réflexion, le développement de code et la conception du projet. Claude est l'IA principale utilisée dans ce projet pour assister la création sans expérience technique.",
+      "utilisation_dans_projet": [
+        "Génération et révision du code HTML/CSS/JS",
+        "Rédaction des contenus du site",
+        "Architecture du système d'assistant vocal",
+        "Débogage et résolution de problèmes techniques",
+        "Conseil sur les meilleures pratiques"
+      ],
+      "avantages": "Très utile pour les non-programmeurs car il explique le code qu'il génère, comprend le contexte et s'adapte au niveau de l'utilisateur.",
+      "url": "https://claude.ai"
+    },
+    {
+      "id": "genspark-ai",
+      "nom": "Genspark AI",
+      "categorie": "Intelligence Artificielle",
+      "description": "Outil IA qui aide à structurer, coder et déployer des projets web. Utilisé en parallèle de Claude pour certaines tâches de développement.",
+      "utilisation_dans_projet": [
+        "Assistance au développement web",
+        "Génération de code",
+        "Structuration du projet"
+      ],
+      "url": "https://genspark.ai"
+    },
+    {
+      "id": "github-pages",
+      "nom": "GitHub Pages",
+      "categorie": "Hébergement",
+      "description": "Service d'hébergement gratuit proposé par GitHub, permettant de publier des sites web statiques directement depuis un dépôt Git. C'est l'hébergement idéal pour un projet open source comme celui-ci.",
+      "utilisation_dans_projet": [
+        "Hébergement du site principal",
+        "Déploiement automatique via Git push",
+        "URL personnalisée gratuite",
+        "Versioning du code"
+      ],
+      "avantages": "Gratuit, fiable, versionné, transparent et conforme aux valeurs de souveraineté numérique.",
+      "url": "https://pages.github.com"
+    },
+    {
+      "id": "github",
+      "nom": "GitHub",
+      "categorie": "Gestion de code",
+      "description": "Plateforme de gestion de code source utilisant Git. Permet de stocker, versionner et collaborer sur le code du projet.",
+      "utilisation_dans_projet": [
+        "Stockage du code source",
+        "Historique des modifications",
+        "Collaboration ouverte",
+        "Issues et suivi des tâches"
+      ],
+      "url": "https://github.com/estilinguierre/sanctuaire-souverainete"
+    },
+    {
+      "id": "reddit",
+      "nom": "Reddit",
+      "categorie": "Communauté",
+      "description": "Plateforme communautaire utilisée pour obtenir des conseils, du soutien et des retours de la communauté de développeurs et d'utilisateurs partageant les mêmes valeurs.",
+      "utilisation_dans_projet": [
+        "Conseils techniques de la communauté",
+        "Retours sur le projet",
+        "Apprentissage par les expériences des autres"
+      ],
+      "subreddits_utiles": ["r/selfhosted", "r/privacy", "r/homelab", "r/learnprogramming", "r/raspberry_pi"]
+    }
+  ],
+
+  "faq": [
+    {
+      "id": 1,
+      "question": "Qu'est-ce que la souveraineté personnelle exactement ?",
+      "reponse": "La souveraineté personnelle est le principe selon lequel vous êtes le seul propriétaire légitime de votre vie, de votre corps, de votre esprit et du produit de votre travail. Personne ne peut exercer une autorité sur vous sans votre consentement. Ce n'est pas de l'anarchie : c'est la reconnaissance que toute relation légitime entre êtres humains est fondée sur le consentement mutuel, non sur la coercition."
+    },
+    {
+      "id": 2,
+      "question": "La souveraineté, c'est refuser toutes les règles et l'autorité ?",
+      "reponse": "Non, absolument pas. La souveraineté personnelle ne signifie pas rejeter toute règle ou institution. Elle signifie choisir consciemment les règles et associations qui vous conviennent, plutôt que de les subir passivement. On peut choisir librement de respecter les lois d'une société, de s'associer à des organisations ou de déléguer certaines décisions - l'essentiel est que ce choix soit éclairé et librement consenti."
+    },
+    {
+      "id": 3,
+      "question": "Comment un soudeur sans expérience crée-t-il un site web et un assistant vocal ?",
+      "reponse": "Avec les outils IA modernes comme Claude AI et Genspark, plus besoin d'être développeur pour créer des projets techniques. Je décris ce que je veux, l'IA génère le code, m'explique comment il fonctionne et m'aide à déboguer. C'est exactement la philosophie de ce projet : la technologie au service de l'humain, qui démocratise la création et l'apprentissage."
+    },
+    {
+      "id": 4,
+      "question": "Quelle est la différence entre liberté et licence ?",
+      "reponse": "La liberté est l'exercice de son autonomie dans le respect de la liberté d'autrui. La licence est l'absence de toute limite, y compris au détriment des autres. La vraie liberté inclut la responsabilité : je suis libre d'agir comme je veux tant que je ne prive pas les autres de leur propre liberté. Un individu souverain reconnaît ce principe car il sait que sa propre liberté mérite le même respect."
+    },
+    {
+      "id": 5,
+      "question": "La souveraineté financière, ça veut dire ne plus avoir de compte en banque ?",
+      "reponse": "Non. La souveraineté financière est une question de contrôle et de résilience, pas de rejet absolu du système bancaire. Elle signifie ne pas dépendre d'une seule source de revenus, avoir des réserves d'urgence, comprendre où va son argent, et ne pas être à la merci d'une seule institution. On peut utiliser les banques traditionnelles tout en construisant des alternatives et en réduisant sa dépendance."
+    },
+    {
+      "id": 6,
+      "question": "Comment commencer à développer sa souveraineté ?",
+      "reponse": "Commencez par un seul domaine qui vous touche le plus. Si c'est la dépendance alimentaire, commencez un potager. Si c'est la dépendance intellectuelle aux médias mainstream, diversifiez vos sources d'information. Si c'est numérique, adoptez un service respectueux de la vie privée. La souveraineté se construit progressivement, un pas à la fois. L'important est de commencer et de rester cohérent avec vos valeurs."
+    },
+    {
+      "id": 7,
+      "question": "La souveraineté numérique nécessite-t-elle des compétences techniques avancées ?",
+      "reponse": "Non. Il existe des niveaux d'engagement différents. Niveau débutant : utiliser Signal au lieu de WhatsApp, ProtonMail au lieu de Gmail, un gestionnaire de mots de passe comme Bitwarden. Niveau intermédiaire : utiliser un VPN, comprendre les paramètres de confidentialité de vos appareils. Niveau avancé : auto-hébergement, serveur personnel, etc. Chaque niveau compte et s'adapte à vos compétences actuelles."
+    },
+    {
+      "id": 8,
+      "question": "Est-ce que la souveraineté va à l'encontre du travail salarié ?",
+      "reponse": "Non. On peut être salarié et souverain. L'essentiel est que vous ayez choisi cette situation librement, que vous compreniez les termes de l'échange, que vous ayez des alternatives si vous souhaitez partir, et que votre employeur ne contrôle pas l'intégralité de votre vie. La souveraineté dans le travail, c'est avoir le pouvoir de dire non, même si on dit souvent oui."
+    },
+    {
+      "id": 9,
+      "question": "Qu'est-ce que l'autodidaxie et pourquoi est-ce important ?",
+      "reponse": "L'autodidaxie est l'apprentissage autonome, sans passer par des institutions formelles. Elle est importante parce qu'elle vous permet d'apprendre exactement ce dont vous avez besoin, quand vous en avez besoin, selon votre rythme et vos objectifs. Avec internet, les livres, les vidéos et maintenant les IA, le savoir est plus accessible que jamais. Ce projet lui-même est un exemple d'autodidaxie : construire quelque chose de complexe sans formation préalable."
+    },
+    {
+      "id": 10,
+      "question": "Est-ce que ce projet va devenir une communauté ou un mouvement ?",
+      "reponse": "Le Sanctuaire de Souveraineté est avant tout un espace de partage et de réflexion. Si une communauté se forme autour de valeurs communes, ce sera formidable. Mais nous voulons éviter de devenir un 'mouvement' avec ses hiérarchies et ses dogmes. La souveraineté, ça ne s'organise pas en congrès - ça se vit individuellement et se partage librement."
+    },
+    {
+      "id": 11,
+      "question": "Pourquoi utiliser GitHub Pages et pas une plateforme de blogging traditionnelle ?",
+      "reponse": "GitHub Pages correspond à nos valeurs : le code est open source et visible de tous, le déploiement est sous notre contrôle, il n'y a pas d'algorithme qui décide de la visibilité de nos contenus, pas de publicité, pas de collecte de données des visiteurs. C'est une forme concrète de souveraineté numérique : héberger son propre contenu sur ses propres termes."
+    },
+    {
+      "id": 12,
+      "question": "Comment l'assistant vocal 'Souverain' fonctionne-t-il ?",
+      "reponse": "L'assistant vocal Souverain utilise trois technologies : la reconnaissance vocale (Web Speech API dans le navigateur, ou SpeechRecognition sur Raspberry Pi) pour transformer votre parole en texte, l'IA Claude d'Anthropic pour comprendre votre question et y répondre en s'appuyant sur la base de connaissances du projet, et la synthèse vocale (SpeechSynthesis ou espeak-ng) pour vous répondre à voix haute. Vous avez besoin de votre propre clé API Anthropic."
+    }
+  ],
+
+  "ressources": [
+    {
+      "id": "livres",
+      "categorie": "Livres recommandés",
+      "items": [
+        {
+          "titre": "La Route de la Servitude",
+          "auteur": "Friedrich Hayek",
+          "description": "Analyse de comment les sociétés planifiées centralisées menacent la liberté individuelle. Un classique de la pensée libérale.",
+          "themes": ["liberté", "économie", "politique"]
+        },
+        {
+          "titre": "L'Homme contre l'État",
+          "auteur": "Herbert Spencer",
+          "description": "Critique du développement du pouvoir étatique au détriment des libertés individuelles.",
+          "themes": ["liberté", "État", "individualisme"]
+        },
+        {
+          "titre": "Moi, Pierre Rivière",
+          "auteur": "Michel Foucault (dir.)",
+          "description": "Illustration des mécanismes de contrôle social et de comment les institutions définissent la normalité.",
+          "themes": ["contrôle", "institutions", "pouvoir"]
+        },
+        {
+          "titre": "Walden ou la Vie dans les bois",
+          "auteur": "Henry David Thoreau",
+          "description": "L'expérience fondatrice de l'autonomie et de la simplicité volontaire. Thoreau construit sa propre cabane et vit de ses mains pendant deux ans.",
+          "themes": ["autonomie", "simplicité", "nature", "autodidaxie"]
+        },
+        {
+          "titre": "The Art of Invisibility",
+          "auteur": "Kevin Mitnick",
+          "description": "Guide pratique pour protéger sa vie privée numérique, par un ancien hacker.",
+          "themes": ["vie privée", "numérique", "sécurité"]
+        },
+        {
+          "titre": "Rich Dad Poor Dad",
+          "auteur": "Robert Kiyosaki",
+          "description": "Introduction à la pensée financière indépendante et à la construction d'actifs.",
+          "themes": ["finance", "indépendance financière", "mindset"]
+        },
+        {
+          "titre": "L'Art de ne pas être gouverné",
+          "auteur": "James C. Scott",
+          "description": "Histoire des populations qui ont activement résisté à l'incorporation dans les États. Une perspective anthropologique fascinante.",
+          "themes": ["autonomie", "résistance", "histoire", "communauté"]
+        }
+      ]
+    },
+    {
+      "id": "pratiques",
+      "categorie": "Pratiques concrètes",
+      "items": [
+        {
+          "nom": "Jardinage et potager",
+          "description": "Produire une partie de sa nourriture est l'une des formes les plus tangibles d'autonomie.",
+          "difficulte": "Débutant",
+          "impact": "Moyen"
+        },
+        {
+          "nom": "Apprentissage d'un métier manuel",
+          "description": "Savoir réparer, construire ou fabriquer avec ses mains est une richesse inestimable.",
+          "difficulte": "Variable",
+          "impact": "Élevé"
+        },
+        {
+          "nom": "Transition vers des outils respectueux de la vie privée",
+          "description": "Signal, ProtonMail, Bitwarden, navigateur Firefox ou Brave.",
+          "difficulte": "Débutant",
+          "impact": "Moyen"
+        },
+        {
+          "nom": "Constitution d'un fonds d'urgence",
+          "description": "3 à 6 mois de dépenses en épargne liquide pour avoir le choix en cas de coup dur.",
+          "difficulte": "Progressif",
+          "impact": "Élevé"
+        },
+        {
+          "nom": "Développement d'une compétence monétisable secondaire",
+          "description": "Une deuxième source de revenus, même petite, change radicalement le rapport au travail principal.",
+          "difficulte": "Variable",
+          "impact": "Élevé"
+        },
+        {
+          "nom": "Lecture diversifiée",
+          "description": "Lire des points de vue opposés au sien pour affûter sa pensée critique.",
+          "difficulte": "Débutant",
+          "impact": "Élevé"
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "categorie": "Concepts clés à explorer",
+      "items": [
+        "Liberté négative vs liberté positive (Isaiah Berlin)",
+        "Théorie des droits naturels (Locke, Nozick)",
+        "Contrat social et ses limites (Rousseau, Hobbes, Locke)",
+        "Désobéissance civile (Thoreau, Gandhi, MLK)",
+        "Économie autrichienne (Mises, Hayek)",
+        "Cryptographie et vie privée",
+        "Mouvement Maker et Do It Yourself",
+        "Philosophie stoïcienne (Épictète, Marc Aurèle)",
+        "Minimalisme comme stratégie de liberté",
+        "Permaculture et design régénératif"
+      ]
+    }
+  ],
+
+  "glossaire": {
+    "souverainete": "Autorité suprême sur soi-même, ses biens et ses actions. Dans le contexte individuel, c'est la reconnaissance que chaque personne est la seule autorité légitime sur sa propre vie.",
+    "autonomie": "Capacité à se gouverner soi-même, à prendre ses propres décisions et à subvenir à ses propres besoins sans dépendance critique aux systèmes externes.",
+    "autodidaxie": "Apprentissage par soi-même, en dehors des institutions formelles, guidé par sa propre curiosité et ses propres objectifs.",
+    "resilience": "Capacité à absorber des chocs et des perturbations tout en maintenant ses fonctions essentielles. Une personne résiliente peut traverser l'adversité sans s'effondrer.",
+    "droits-naturels": "Droits que possède chaque être humain en vertu de sa nature, indépendamment des lois ou des États : vie, liberté, propriété. Concept développé notamment par John Locke.",
+    "libertarisme": "Philosophie politique qui valorise la liberté individuelle maximale et minimise l'intervention coercitive dans les affaires d'autrui.",
+    "self-hosting": "Hébergement de ses propres services numériques (email, cloud, site web) sur ses propres serveurs, plutôt que de dépendre de services tiers.",
+    "open-source": "Logiciel dont le code source est librement accessible, modifiable et redistribuable. L'open source favorise la transparence et la souveraineté numérique.",
+    "decentralisation": "Organisation dans laquelle le pouvoir et le contrôle sont distribués entre de nombreux acteurs plutôt que concentrés en un point central.",
+    "vie-privee": "Droit de chaque individu à contrôler les informations qui le concernent et à mener sa vie sans surveillance non consentie.",
+    "consentement": "Accord libre, éclairé et révocable qui est la seule base légitime d'une relation entre individus souverains.",
+    "minimalisme": "Philosophie et style de vie qui consiste à ne posséder et consommer que ce qui est vraiment nécessaire à sa vie épanouie, réduisant ainsi les dépendances et les distractions.",
+    "pensee-critique": "Processus intellectuel de remise en question et d'évaluation rigoureuse des informations, des arguments et des croyances, en se fondant sur la raison plutôt que sur l'autorité.",
+    "coercion": "Contrainte exercée par la force ou la menace, par opposition au consentement. Toute relation basée sur la coercition est considérée illégitime par les souverainistes individuels.",
+    "interdependance": "État de dépendance mutuelle entre individus ou groupes. Différente de la dépendance unilatérale : elle peut être choisie et équitable.",
+    "souverainete-alimentaire": "Capacité à contrôler et à sécuriser son alimentation, que ce soit par la production personnelle, les achats directs aux producteurs ou les réserves.",
+    "resilience-communautaire": "Capacité d'un groupe ou d'une communauté à traverser des crises ensemble en s'appuyant sur ses ressources et ses réseaux internes.",
+    "agent-ia": "Programme d'intelligence artificielle capable de prendre des décisions et d'effectuer des actions de manière autonome pour atteindre un objectif défini.",
+    "assistant-vocal": "Système informatique capable de comprendre la parole humaine, de la traiter et de répondre vocalement, permettant une interaction naturelle sans clavier ni écran."
+  }
+}

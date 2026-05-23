@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Souverain - Assistant Vocal | Sanctuaire de Souveraineté</title>
+  <meta name="description" content="Souverain, l'assistant vocal du Sanctuaire de Souveraineté. Posez vos questions sur la souveraineté personnelle, la liberté individuelle et l'autonomie.">
+  <link rel="stylesheet" href="assistant.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- En-tête -->
+    <header class="app-header">
+      <a href="../" class="header-logo" title="Retour au Sanctuaire">
+        <span class="logo-icon">🏛️</span>
+        <span class="logo-texte">
+          <span class="logo-titre">Sanctuaire de Souveraineté</span>
+          <span class="logo-sous-titre">Assistant vocal Souverain</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a href="../" class="btn-retour">
+          ← Retour au site
+        </a>
+      </div>
+    </header>
+
+    <!-- Configuration clé API -->
+    <section class="section-api" id="section-api">
+      <div class="api-titre">
+        <span class="statut-point" id="point-api"></span>
+        Clé API Anthropic Claude
+      </div>
+      <div class="api-formulaire">
+        <input
+          type="password"
+          id="input-api-key"
+          class="api-input"
+          placeholder="sk-ant-api03-..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Clé API Anthropic"
+        >
+        <button class="btn-api" id="btn-sauvegarder-api" onclick="assistant.sauvegarderApiKey()">
+          Enregistrer
+        </button>
+      </div>
+      <div id="api-message" class="api-message" role="alert" aria-live="polite"></div>
+    </section>
+
+    <!-- Zone de contrôle principal -->
+    <div class="zone-controle" role="main">
+
+      <!-- Bouton microphone avec ondes -->
+      <div class="bouton-micro-conteneur" id="conteneur-micro">
+        <div class="onde-pulsation onde-pulsation-1" aria-hidden="true"></div>
+        <div class="onde-pulsation onde-pulsation-2" aria-hidden="true"></div>
+        <div class="onde-pulsation onde-pulsation-3" aria-hidden="true"></div>
+        <button
+          class="bouton-micro"
+          id="bouton-micro"
+          onclick="assistant.basculerEcoute()"
+          aria-label="Activer/désactiver le microphone"
+          title="Appuyez pour parler"
+        >
+          <span class="micro-icone" id="micro-icone" aria-hidden="true">🎤</span>
+          <span class="micro-label" id="micro-label">Parler</span>
+        </button>
+      </div>
+
+      <!-- Indicateur de statut -->
+      <div class="indicateur-statut" id="indicateur-statut" role="status" aria-live="polite">
+        <span class="statut-icone" id="statut-icone">💤</span>
+        <span class="statut-texte" id="statut-texte">En attente</span>
+        <div class="visualiseur-son" id="visualiseur-son" aria-hidden="true">
+          <div class="barre-son"></div>
+          <div class="barre-son"></div>
+          <div class="barre-son"></div>
+          <div class="barre-son"></div>
+          <div class="barre-son"></div>
+        </div>
+      </div>
+
+      <!-- Contrôles additionnels -->
+      <div class="controles-additionnels">
+        <label for="selecteur-langue" style="font-size:0.8rem;color:var(--couleur-texte-secondaire);">Langue :</label>
+        <select id="selecteur-langue" class="selecteur-langue" onchange="assistant.changerLangue(this.value)" aria-label="Sélectionner la langue">
+          <option value="fr-FR">🇫🇷 Français</option>
+          <option value="en-US">🇺🇸 English</option>
+          <option value="en-GB">🇬🇧 English (UK)</option>
+          <option value="es-ES">🇪🇸 Español</option>
+          <option value="de-DE">🇩🇪 Deutsch</option>
+        </select>
+        <button class="btn-effacer" onclick="assistant.effacerConversation()" aria-label="Effacer la conversation">
+          🗑️ Effacer
+        </button>
+      </div>
+    </div>
+
+    <!-- Zone de conversation -->
+    <div class="zone-conversation" role="log" aria-label="Conversation avec Souverain">
+      <div class="conversation-entete">
+        <span class="conversation-titre">💬 Conversation</span>
+        <span class="conversation-compteur" id="compteur-messages">0 message(s)</span>
+      </div>
+
+      <div class="messages-liste" id="messages-liste" aria-live="polite" aria-relevant="additions">
+        <!-- Message de bienvenue -->
+        <div class="message-vide" id="message-vide">
+          <span class="vide-icone">🏛️</span>
+          <p>Bonjour ! Je suis <strong>Souverain</strong>, votre assistant vocal du Sanctuaire.</p>
+          <p style="margin-top:8px;font-size:0.8rem;">Appuyez sur le microphone ou posez-moi une question vocalement.</p>
+        </div>
+      </div>
+
+      <!-- Zone de transcription temps réel -->
+      <div class="zone-transcription" id="zone-transcription">
+        <span class="transcription-icone">📝</span>
+        <span id="texte-transcrit">Appuyez sur le microphone pour commencer...</span>
+      </div>
+    </div>
+
+    <!-- Pied de page -->
+    <footer class="app-footer">
+      <p>
+        Souverain est alimenté par <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI (Anthropic)</a> •
+        <a href="../" >Sanctuaire de Souveraineté</a> •
+        <a href="https://github.com/estilinguierre/sanctuaire-souverainete" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top:4px;font-size:0.7rem;opacity:0.6;">
+        Votre clé API est stockée localement dans votre navigateur. Aucune donnée n'est envoyée à des tiers sauf à l'API Anthropic.
+      </p>
+    </footer>
+
+  </div><!-- fin app-container -->
+
+  <script src="assistant.js"></script>
+  <script>
+    // Initialisation au chargement de la page
+    document.addEventListener('DOMContentLoaded', () => {
+      window.assistant = new SanctuaireAssistant();
+    });
+  </script>
+</body>
+</html>

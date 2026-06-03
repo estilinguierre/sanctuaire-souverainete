@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOTHAM · Plateforme d'Intelligence</title>
+  <link rel="stylesheet" href="assets/css/gotham.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ═══ TOPBAR ═══════════════════════════════════════════════════════════ -->
+  <header id="topbar">
+    <div class="logo-area">
+      <div class="logo-icon">G</div>
+      <div>
+        <div class="logo-text">GOTHAM</div>
+        <div class="logo-sub">Intelligence Platform</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-view="graph">◈ Graphe</button>
+      <button class="nav-tab" data-view="objects">⊞ Objets</button>
+      <button class="nav-tab" data-view="timeline">◫ Timeline</button>
+    </nav>
+
+    <div class="inv-info">
+      <div>
+        <strong id="inv-name">—</strong>
+        &nbsp;<span id="inv-status" class="inv-status">—</span>
+      </div>
+      <div style="margin-top:2px">
+        <span id="inv-analyst">—</span>
+        &nbsp;·&nbsp;
+        <span id="inv-entities">—</span> obj
+        &nbsp;·&nbsp;
+        <span id="inv-edges">—</span> liens
+        &nbsp;·&nbsp;
+        <span style="color:var(--red); font-weight:600"><span id="inv-alerts">—</span> ⚠</span>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input id="global-search" type="text" placeholder="Rechercher... (/)">
+      <div id="search-results"></div>
+    </div>
+
+    <div class="user-area">
+      <div class="user-avatar">AM</div>
+      <div>
+        <div class="user-name">Agent Moreau</div>
+        <div class="user-role">TS/SCI</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+  <nav id="sidebar">
+    <button class="sidebar-btn" title="Tableau de bord">⌂</button>
+    <button class="sidebar-btn active" data-view="graph" title="Graphe (G)">◈</button>
+    <button class="sidebar-btn" data-view="objects" title="Objets (O)">⊞</button>
+    <button class="sidebar-btn" data-view="timeline" title="Timeline (T)">◫</button>
+    <div class="sidebar-sep"></div>
+    <button class="sidebar-btn" title="Ajouter entité (Ctrl+A)" onclick="document.getElementById('modal-add').classList.add('open')">＋</button>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-sep"></div>
+    <button class="sidebar-btn" title="Déconnexion" onclick="location.href='index.html'" style="font-size:12px">⏻</button>
+  </nav>
+
+  <!-- ═══ MAIN ═════════════════════════════════════════════════════════════ -->
+  <main id="main">
+
+    <!-- Graph Toolbar -->
+    <div id="graph-toolbar">
+      <button class="btn-tool" id="btn-fit" title="Ajuster (F)">⊡ Ajuster</button>
+      <button class="btn-tool" id="btn-zoom-in">＋</button>
+      <button class="btn-tool" id="btn-zoom-out">－</button>
+      <button class="btn-tool active" id="btn-sim">⏸ Pause</button>
+      <button class="btn-tool" id="btn-cluster" title="Regrouper par type">❖ Clusters</button>
+      <button class="btn-tool" id="btn-path" title="Trouver chemin entre 2 nœuds (P)">⟿ Chemin</button>
+      <div class="toolbar-sep"></div>
+      <span style="font-size:10px;color:var(--text3)">Filtres :</span>
+      <div class="filter-chips">
+        <button class="filter-chip active" data-type="PERSON">PERSONNE</button>
+        <button class="filter-chip active" data-type="ORG">ORG.</button>
+        <button class="filter-chip active" data-type="LOCATION">LIEU</button>
+        <button class="filter-chip active" data-type="EVENT">ÉVÉNEMENT</button>
+        <button class="filter-chip active" data-type="DOCUMENT">DOCUMENT</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <button class="btn-tool" id="btn-add-entity">＋ Entité</button>
+      <button class="btn-tool" id="btn-export-png" title="Exporter image">↓ PNG</button>
+      <button class="btn-tool" id="btn-export-json" title="Exporter données">↓ JSON</button>
+      <div class="toolbar-info" style="margin-left:auto;font-size:10px;color:var(--text3)">
+        Clic: sélectionner &nbsp;·&nbsp; Dbl-clic: zoomer &nbsp;·&nbsp; Clic droit: menu &nbsp;·&nbsp; DEL: supprimer
+      </div>
+    </div>
+
+    <!-- ── GRAPH VIEW ─────────────────────────────────────────── -->
+    <div id="view-graph" class="view-panel active">
+      <canvas id="graph-canvas"></canvas>
+
+      <!-- Alerts overlay -->
+      <div id="alerts-panel">
+        <div class="alerts-header">
+          <span>⚠ Alertes actives</span>
+          <span class="alert-count">5</span>
+        </div>
+        <div id="alerts-list"></div>
+      </div>
+
+      <!-- Entity detail panel -->
+      <div id="detail-panel">
+        <div class="detail-header">
+          <div class="detail-icon-wrap">
+            <span id="detail-icon">?</span>
+          </div>
+          <div class="detail-title">
+            <div id="detail-type" class="detail-type-badge">TYPE</div>
+            <div id="detail-name">—</div>
+          </div>
+          <button id="close-detail" title="Fermer (Esc)">✕</button>
+        </div>
+        <div class="detail-body">
+          <div class="detail-section">
+            <div class="detail-section-title">Propriétés</div>
+            <table class="props-table" id="detail-props"></table>
+          </div>
+          <div class="detail-section">
+            <div class="detail-section-title">Connexions</div>
+            <div id="detail-connections"></div>
+          </div>
+          <div class="detail-section" id="detail-notes-section" style="display:none">
+            <div class="detail-section-title">Notes</div>
+            <div id="detail-notes-list"></div>
+          </div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn-primary btn-sm" id="detail-edit-btn">✎ Éditer</button>
+          <button class="btn-sm" id="detail-note-btn">＋ Note</button>
+          <button class="btn-sm" style="color:var(--red)" id="detail-delete-btn">✕ Suppr.</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── OBJECTS VIEW ───────────────────────────────────────── -->
+    <div id="view-objects" class="view-panel">
+      <div class="objects-header">
+        <h2>Navigateur d'objets</h2>
+        <span class="count-badge" id="obj-count">—</span>
+        <button class="btn-tool" style="margin-left:8px" onclick="document.getElementById('modal-add').classList.add('open')">＋ Ajouter</button>
+        <input id="objects-filter" type="text" placeholder="Filtrer...">
+      </div>
+      <div class="objects-table-wrap">
+        <table class="objects-table">
+          <thead>
+            <tr>
+              <th style="width:14px"></th>
+              <th>Type</th>
+              <th>Nom / Libellé</th>
+              <th>Valeur principale</th>
+              <th>Risque</th>
+              <th style="width:100px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="objects-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── TIMELINE VIEW ──────────────────────────────────────── -->
+    <div id="view-timeline" class="view-panel">
+      <div class="timeline-header">
+        <h2>◫ Chronologie des événements</h2>
+        <span class="count-badge">4 événements</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text3)">Jan 2026 → Mar 2026</span>
+      </div>
+      <div style="padding:24px 30px;overflow:auto;flex:1">
+        <div class="timeline-canvas">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Jan. ────────────────────────────────── Fév. ────────────────────────────────── Mar. 2026</div>
+          <div class="timeline-axis"></div>
+          <div class="tl-events-container">
+            <div id="timeline-events"></div>
+          </div>
+        </div>
+        <div style="margin-top:50px">
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Détail des événements</div>
+          <div id="event-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══ STATUS BAR ═══════════════════════════════════════════════════════ -->
+  <footer id="statusbar">
+    <div class="status-item"><div class="status-dot"></div><span>CONNECTÉ</span></div>
+    <div class="status-item">Objets : <strong id="status-nodes" style="margin-left:4px">—</strong></div>
+    <div class="status-item">Liens : <strong id="status-edges" style="margin-left:4px">—</strong></div>
+    <div class="status-item" style="margin-left:auto">Zoom : <span id="zoom-level" style="margin-left:4px;color:var(--text2)">100%</span></div>
+    <div class="status-item"><span id="status-time">—</span></div>
+    <div class="status-item">GOTHAM v2.6.1</div>
+  </footer>
+
+</div>
+
+<!-- ═══ CONTEXT MENU ════════════════════════════════════════════════════════ -->
+<div id="context-menu">
+  <div class="ctx-item" id="ctx-focus"><span class="ctx-icon">◎</span> Centrer la vue</div>
+  <div class="ctx-item" id="ctx-detail"><span class="ctx-icon">◧</span> Voir les détails</div>
+  <div class="ctx-item" id="ctx-expand"><span class="ctx-icon">◈</span> Mettre en évidence les voisins</div>
+  <div class="ctx-item" id="ctx-path-from"><span class="ctx-icon">⟿</span> Trouver chemin depuis ici</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctx-edit"><span class="ctx-icon">✎</span> Éditer l'entité</div>
+  <div class="ctx-item" id="ctx-delete" style="color:var(--red)"><span class="ctx-icon">✕</span> Supprimer</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="close-ctx" style="color:var(--text3)"><span class="ctx-icon">—</span> Fermer</div>
+</div>
+
+<!-- ═══ MODAL : ADD ENTITY ══════════════════════════════════════════════════ -->
+<div id="modal-add" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>＋ Ajouter une entité</span>
+      <button class="modal-close">✕</button>
+    </div>
+    <form id="modal-add-form" class="modal-body">
+      <div class="field">
+        <label>Type</label>
+        <select id="add-type" class="field-input">
+          <option value="PERSON">PERSON — Individu</option>
+          <option value="ORG">ORG — Organisation</option>
+          <option value="LOCATION">LOCATION — Lieu</option>
+          <option value="EVENT">EVENT — Événement</option>
+          <option value="DOCUMENT">DOCUMENT — Document</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nom / Libellé *</label>
+        <input id="add-label" type="text" class="field-input" placeholder="ex: Jean Dupont" required>
+      </div>
+      <div class="field">
+        <label>Niveau de risque</label>
+        <select id="add-risk" class="field-input">
+          <option value="">— Aucun —</option>
+          <option value="FAIBLE">FAIBLE</option>
+          <option value="MOYEN">MOYEN</option>
+          <option value="ÉLEVÉ">ÉLEVÉ</option>
+          <option value="CRITIQUE">CRITIQUE</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-sm modal-close">Annuler</button>
+        <button type="submit" class="btn-primary">Ajouter au graphe</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ MODAL : EDIT ENTITY ═════════════════════════════════════════════════ -->
+<div id="modal-edit" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>✎ Éditer l'entité</span>
+      <button class="modal-close">✕</button>
+    </div>
+    <form id="modal-edit-form" class="modal-body">
+      <input type="hidden" id="edit-id">
+      <div class="field">
+        <label>Type</label>
+        <div style="font-family:var(--font-mono);font-size:12px;padding:8px 0;color:var(--text2)" id="edit-type-display">—</div>
+      </div>
+      <div class="field">
+        <label>Nom / Libellé *</label>
+        <input id="edit-label" type="text" class="field-input" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-sm modal-close">Annuler</button>
+        <button type="submit" class="btn-primary">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ MODAL : NOTE ════════════════════════════════════════════════════════ -->
+<div id="modal-note" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📝 Ajouter une note — <span id="note-entity-name"></span></span>
+      <button class="modal-close">✕</button>
+    </div>
+    <form id="modal-note-form" class="modal-body">
+      <input type="hidden" id="note-entity-id">
+      <div class="field">
+        <label>Note d'investigation</label>
+        <textarea id="note-text" class="field-input" rows="4"
+          placeholder="Observations, hypothèses, éléments à vérifier..." style="resize:vertical"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-sm modal-close">Annuler</button>
+        <button type="submit" class="btn-primary">Enregistrer la note</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ TOAST CONTAINER ═════════════════════════════════════════════════════ -->
+<div id="toast-container"></div>
+
+<script src="assets/js/gotham-data.js"></script>
+<script src="assets/js/gotham-graph.js"></script>
+<script src="assets/js/gotham-app.js"></script>
+
+<script>
+// Event cards for timeline view
+window.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('event-cards-grid');
+  if (!grid) return;
+  const events = GOTHAM_DATA.nodes.filter(n => n.type === 'EVENT');
+  grid.innerHTML = events.map(n => {
+    const cfg = NODE_COLORS[n.type];
+    return `<div class="event-card" style="border-left-color:${cfg.stroke}">
+      <div class="tl-date">${n.props.Date || ''}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${n.label}</div>
+      ${Object.entries(n.props).slice(1).map(([k,v]) =>
+        `<div style="font-size:11px;color:var(--text2);margin-bottom:3px">
+          <span style="color:var(--text3)">${k} :</span> ${v}
+        </div>`).join('')}
+      <div style="margin-top:10px">
+        <button class="btn-sm" onclick="App.focusEntity('${n.id}')">Voir dans le graphe →</button>
+      </div>
+    </div>`;
+  }).join('');
+});
+</script>
+
+</body>
+</html>

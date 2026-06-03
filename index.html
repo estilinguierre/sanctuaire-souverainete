@@ -1,128 +1,389 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanctuaire de Souveraineté - En Construction</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOTHAM · Connexion Sécurisée</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #070b12;
+      --bg1:     #0d1320;
+      --bg2:     #111927;
+      --border:  #1c2d42;
+      --border2: #243548;
+      --accent:  #1c6fcd;
+      --accent-h:#2a82eb;
+      --text:    #d0dce8;
+      --text2:   #8a9bb0;
+      --text3:   #4e6278;
+      --red:     #e63946;
+      --green:   #57cc99;
+    }
+
+    html, body {
+      height: 100%; background: var(--bg);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text); overflow: hidden;
+    }
+
+    /* Animated background grid */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(28,111,205,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(28,111,205,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      animation: grid-drift 20s linear infinite;
+    }
+    @keyframes grid-drift {
+      from { background-position: 0 0; }
+      to   { background-position: 48px 48px; }
+    }
+
+    /* Radial glow */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%,
+        rgba(28,111,205,0.12) 0%, transparent 70%);
+    }
+
+    /* Scan line */
+    .scanline {
+      position: fixed; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(28,111,205,0.4), transparent);
+      z-index: 1; animation: scan 4s linear infinite;
+    }
+    @keyframes scan {
+      from { top: -2px; } to { top: 100%; }
+    }
+
+    /* Classification banner */
+    .class-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+      background: #1a0808; border-bottom: 1px solid var(--red);
+      text-align: center; padding: 4px;
+      font-size: 10px; font-weight: 700; color: var(--red);
+      letter-spacing: 3px; font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Main login card */
+    .login-wrap {
+      position: relative; z-index: 5;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 20px 20px;
+    }
+
+    .login-card {
+      width: 100%; max-width: 400px;
+      background: var(--bg1); border: 1px solid var(--border2);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(28,111,205,0.15),
+                  0 24px 64px rgba(0,0,0,0.6),
+                  0 0 80px rgba(28,111,205,0.06);
+    }
+
+    .login-header {
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 28px 32px 24px;
+      text-align: center;
+    }
+
+    .logo-wrap {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin-bottom: 16px;
+    }
+    .logo-hex {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, #1c6fcd 0%, #0a3d7a 100%);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 800; color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      box-shadow: 0 4px 16px rgba(28,111,205,0.4),
+                  inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .logo-info h1 {
+      font-size: 22px; font-weight: 700; letter-spacing: 3px;
+      color: var(--text); font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+    }
+    .logo-info p {
+      font-size: 10px; color: var(--text3); letter-spacing: 2px;
+      text-transform: uppercase; margin-top: 3px;
+    }
+
+    .classification-tag {
+      display: inline-block; margin: 0 auto;
+      background: #0d1f3a; border: 1px solid rgba(28,111,205,0.4);
+      padding: 3px 12px; border-radius: 20px;
+      font-size: 9px; font-weight: 700; color: var(--accent-h);
+      letter-spacing: 2px; font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Form */
+    .login-form { padding: 28px 32px 24px; }
+
+    .auth-warning {
+      background: #140d00; border: 1px solid #ff7f5033;
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 20px;
+      font-size: 10px; color: var(--text2); line-height: 1.6;
+    }
+    .auth-warning strong { color: var(--red); display: block; margin-bottom: 2px; }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block; font-size: 10px; font-weight: 700;
+      color: var(--text3); letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .field input {
+      width: 100%; padding: 10px 14px;
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 7px; color: var(--text);
+      font-size: 13px; outline: none;
+      font-family: 'JetBrains Mono', monospace;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(28,111,205,0.15);
+    }
+    .field input::placeholder { color: var(--text3); }
+
+    .field-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .checkbox-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--text2); cursor: pointer;
+    }
+    .checkbox-label input[type=checkbox] { accent-color: var(--accent); }
+
+    .btn-login {
+      width: 100%; padding: 11px;
+      background: var(--accent); border: none; border-radius: 7px;
+      color: #fff; font-size: 13px; font-weight: 700;
+      cursor: pointer; letter-spacing: 1px;
+      font-family: 'JetBrains Mono', monospace;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+      position: relative; overflow: hidden;
+    }
+    .btn-login::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.08), transparent);
+    }
+    .btn-login:hover {
+      background: var(--accent-h);
+      box-shadow: 0 4px 16px rgba(28,111,205,0.4);
+      transform: translateY(-1px);
+    }
+    .btn-login:active { transform: translateY(0); }
+
+    .login-footer {
+      border-top: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .system-status { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text3); }
+    .dot-green {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 6px var(--green);
+    }
+    .version-tag { font-size: 10px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+
+    /* Error message */
+    #error-msg {
+      background: #1a0a0a; border: 1px solid #e6394633;
+      border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;
+      font-size: 11px; color: var(--red); display: none;
+    }
+
+    /* Bottom legal */
+    .legal-footer {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+      background: var(--bg1); border-top: 1px solid var(--border);
+      padding: 6px; text-align: center;
+      font-size: 9px; color: var(--text3);
+      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+    }
+
+    /* Loading overlay */
+    #loading {
+      display: none; position: fixed; inset: 0; z-index: 100;
+      background: var(--bg); align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    #loading.show { display: flex; }
+    .spinner {
+      width: 36px; height: 36px; border: 3px solid var(--border2);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      color: var(--text2); letter-spacing: 1px;
+    }
+    .loading-progress {
+      width: 240px; height: 2px; background: var(--border2); border-radius: 2px;
+    }
+    .loading-bar {
+      height: 100%; width: 0; background: var(--accent); border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="status-badge">🚧 PROJET EN COURS DE DÉVELOPPEMENT 🚧</div>
-            
-            <h1>🏛️ Sanctuaire de Souveraineté</h1>
-            
-            <p class="intro">
-                Bienvenue sur le site du <strong>Sanctuaire de Souveraineté</strong>, 
-                un projet en cours de réflexion et de construction.
-            </p>
 
-            <div class="box">
-                <h2>💡 L'idée</h2>
-                <p>
-                    Un espace dédié à l'exploration des concepts de souveraineté personnelle, 
-                    de liberté individuelle et de responsabilité.
-                </p>
-            </div>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="scanline"></div>
 
-            <div class="box">
-                <h2>🛠️ État du projet</h2>
-                <p>
-                    Ce projet est actuellement en <strong>phase de conception</strong>. 
-                    Le contenu et la direction sont encore en développement.
-                </p>
-                <p>
-                    <em>Ce site évolue au fur et à mesure de la réflexion.</em>
-                </p>
-            </div>
+<div class="class-banner">⚠ SYSTÈME GOUVERNEMENTAL RESTREINT — ACCÈS NON AUTORISÉ INTERDIT ⚠</div>
 
-            <div class="box">
-                <h2>👤 Qui suis-je ?</h2>
-                <p>
-                    Je suis soudeur de métier, curieux et passionné par les idées de liberté 
-                    et d'autonomie personnelle. 
-                </p>
-                <p>
-                    Je n'ai pas d'expérience en programmation, mais je me fais aider par 
-                    la communauté (Reddit, forums) et l'intelligence artificielle pour 
-                    donner vie à ce projet.
-                </p>
-            </div>
-
-            <div class="box tools">
-                <h2>🤖 Services, Outils & Agents IA utilisés</h2>
-                <p>
-                    Pour construire ce projet, je m'appuie sur des outils modernes et 
-                    accessibles qui permettent à n'importe qui de créer, même sans 
-                    compétences techniques :
-                </p>
-                
-                <div class="tool-grid">
-                    <div class="tool-item">
-                        <div class="tool-icon">🤖</div>
-                        <h3>Intelligence Artificielle</h3>
-                        <p><strong>Genspark AI</strong> - Assistant IA qui m'aide à coder, structurer et déployer le site</p>
-                        <p><strong>ChatGPT / Claude</strong> - Pour la rédaction, les idées et la réflexion</p>
-                    </div>
-
-                    <div class="tool-item">
-                        <div class="tool-icon">🌐</div>
-                        <h3>Hébergement & Code</h3>
-                        <p><strong>GitHub</strong> - Stockage du code et hébergement gratuit du site</p>
-                        <p><strong>GitHub Pages</strong> - Mise en ligne automatique et gratuite</p>
-                    </div>
-
-                    <div class="tool-item">
-                        <div class="tool-icon">💬</div>
-                        <h3>Communauté & Support</h3>
-                        <p><strong>Reddit</strong> - Conseils et retours de la communauté</p>
-                        <p><strong>Forums</strong> - Entraide et apprentissage collectif</p>
-                    </div>
-
-                    <div class="tool-item">
-                        <div class="tool-icon">📝</div>
-                        <h3>Création de Contenu</h3>
-                        <p><strong>Agents IA spécialisés</strong> - Pour générer du texte, des images, structurer les idées</p>
-                        <p><strong>Outils de design assisté</strong> - Pour créer sans être graphiste</p>
-                    </div>
-                </div>
-
-                <div class="philosophy">
-                    <p><strong>💡 Ma philosophie :</strong></p>
-                    <p>
-                        "Tu n'as pas besoin d'être développeur pour construire sur le web. 
-                        Les outils IA et les communautés rendent le savoir accessible à tous. 
-                        C'est ça aussi, la souveraineté : apprendre, créer et construire par soi-même."
-                    </p>
-                </div>
-            </div>
-
-            <div class="box collaboration">
-                <h2>🤝 Contributions & Échanges</h2>
-                <p>
-                    Ce projet est ouvert aux idées, suggestions et collaborations.
-                </p>
-                <p>
-                    Si vous êtes intéressé(e) ou souhaitez échanger, 
-                    n'hésitez pas à me contacter via GitHub.
-                </p>
-                <a href="https://github.com/estilinguierre/sanctuaire-souverainete" 
-                   class="btn" target="_blank">
-                    📂 Voir le projet sur GitHub
-                </a>
-            </div>
-
-            <footer>
-                <p>
-                    <small>
-                        Sanctuaire de Souveraineté • 2026 • Projet en développement<br>
-                        Créé avec curiosité, apprentissage continu et assistance IA<br>
-                        <em>"La technologie au service de l'autonomie personnelle"</em>
-                    </small>
-                </p>
-            </footer>
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-wrap">
+        <div class="logo-hex">G</div>
+        <div class="logo-info">
+          <h1>GOTHAM</h1>
+          <p>Intelligence Platform v2.6</p>
         </div>
+      </div>
+      <div class="classification-tag">TS/SCI · ORCON · NOFORN</div>
     </div>
+
+    <div class="login-form">
+      <div class="auth-warning">
+        <strong>⚠ AVERTISSEMENT DE SÉCURITÉ</strong>
+        Ce système contient des informations gouvernementales classifiées.
+        L'accès est réservé aux personnels habilités. Toute tentative d'accès
+        non autorisé est passible de poursuites pénales.
+      </div>
+
+      <div id="error-msg">Identifiants invalides. Tentatives restantes : <span id="tries-left">3</span></div>
+
+      <form id="login-form" onsubmit="return handleLogin(event)">
+        <div class="field">
+          <label>Identifiant utilisateur</label>
+          <input type="text" id="username" placeholder="user.name@agency.gov" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Mot de passe</label>
+          <input type="password" id="password" placeholder="••••••••••••" autocomplete="current-password">
+        </div>
+        <div class="field-row">
+          <label class="checkbox-label">
+            <input type="checkbox"> Session sécurisée
+          </label>
+          <span style="font-size:11px; color: var(--accent-h); cursor:pointer">
+            Assistance sécurité →
+          </span>
+        </div>
+        <button type="submit" class="btn-login">CONNEXION SÉCURISÉE</button>
+      </form>
+    </div>
+
+    <div class="login-footer">
+      <div class="system-status">
+        <div class="dot-green"></div>
+        <span>Systèmes opérationnels</span>
+      </div>
+      <div class="version-tag">GOTHAM v2.6.1 · 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="legal-footer">
+  SYSTÈME CLASSIFIÉ · USAGE RESTREINT · SURVEILLANCE CONTINUE · © 2026 GOTHAM Intelligence Systems
+</div>
+
+<!-- Loading screen -->
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">AUTHENTIFICATION EN COURS...</div>
+  <div class="loading-progress">
+    <div class="loading-bar" id="loading-bar"></div>
+  </div>
+</div>
+
+<script>
+  let tries = 3;
+
+  // Auto-fill demo credentials hint
+  document.querySelector('#login-form input[type=text]').addEventListener('focus', function() {
+    if (!this.value) this.placeholder = 'Indice : admin';
+  });
+  document.querySelector('#login-form input[type=password]').addEventListener('focus', function() {
+    if (!this.value) this.placeholder = 'Indice : admin';
+  });
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value.trim();
+
+    // Accept any non-empty credentials (demo mode)
+    if (u && p) {
+      startLoading();
+      return false;
+    }
+
+    // Empty fields
+    tries--;
+    const err = document.getElementById('error-msg');
+    document.getElementById('tries-left').textContent = tries;
+    err.style.display = 'block';
+    if (tries <= 0) {
+      err.textContent = 'Compte verrouillé. Contactez l\'administrateur système.';
+      document.getElementById('login-form').style.opacity = '0.5';
+      document.getElementById('login-form').style.pointerEvents = 'none';
+    }
+    return false;
+  }
+
+  function startLoading() {
+    const overlay  = document.getElementById('loading');
+    const bar      = document.getElementById('loading-bar');
+    const text     = document.getElementById('loading-text');
+    overlay.classList.add('show');
+
+    const steps = [
+      [0,   'VÉRIFICATION DES ACCRÉDITATIONS...'],
+      [20,  'CHARGEMENT DES DONNÉES CLASSIFIÉES...'],
+      [45,  'INITIALISATION DU GRAPHE RELATIONNEL...'],
+      [70,  'DÉCRYPTAGE DES CONNEXIONS...'],
+      [90,  'INITIALISATION DE L\'INTERFACE...'],
+      [100, 'ACCÈS AUTORISÉ'],
+    ];
+
+    let i = 0;
+    function next() {
+      if (i >= steps.length) {
+        setTimeout(() => { location.href = 'gotham.html'; }, 300);
+        return;
+      }
+      const [pct, msg] = steps[i++];
+      bar.style.width = pct + '%';
+      text.textContent = msg;
+      setTimeout(next, 400 + Math.random() * 200);
+    }
+    setTimeout(next, 200);
+  }
+
+  // Enter key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin(e);
+  });
+</script>
 </body>
 </html>

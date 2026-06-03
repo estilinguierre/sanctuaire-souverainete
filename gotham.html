@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOTHAM · Plateforme d'Intelligence</title>
+  <link rel="stylesheet" href="assets/css/gotham.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ═══ TOPBAR ═══════════════════════════════════════════════════════════ -->
+  <header id="topbar">
+    <div class="logo-area">
+      <div class="logo-icon">G</div>
+      <div>
+        <div class="logo-text">GOTHAM</div>
+        <div class="logo-sub">Intelligence Platform</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-view="graph">◈ Graphe</button>
+      <button class="nav-tab" data-view="objects">⊞ Objets</button>
+      <button class="nav-tab" data-view="timeline">◫ Timeline</button>
+    </nav>
+
+    <div class="inv-info">
+      <div>
+        <div><strong id="inv-name">—</strong></div>
+        <div>
+          <span id="inv-status" class="inv-status">—</span>
+          &nbsp;·&nbsp;
+          <span id="inv-analyst">—</span>
+          &nbsp;·&nbsp;
+          Depuis <span id="inv-created">—</span>
+        </div>
+      </div>
+      <div style="font-size:11px; color:var(--text3)">
+        <span id="inv-entities">—</span> objets &nbsp;·&nbsp;
+        <span id="inv-edges">—</span> liens &nbsp;·&nbsp;
+        <span style="color:var(--red); font-weight:600"><span id="inv-alerts">—</span> alertes critiques</span>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input id="global-search" type="text" placeholder="Rechercher... (/)">
+      <div id="search-results"></div>
+    </div>
+
+    <div class="user-area">
+      <div class="user-avatar">AM</div>
+      <div>
+        <div class="user-name">Agent Moreau</div>
+        <div class="user-role">Analyste Senior · TS/SCI</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+  <nav id="sidebar">
+    <button class="sidebar-btn" title="Tableau de bord">⌂</button>
+    <button class="sidebar-btn active" data-view="graph" title="Graphe de relations">◈</button>
+    <button class="sidebar-btn" data-view="objects" title="Navigateur d'objets">⊞</button>
+    <button class="sidebar-btn" data-view="timeline" title="Chronologie">◫</button>
+    <div class="sidebar-sep"></div>
+    <button class="sidebar-btn" title="Carte géographique" style="opacity:.4;cursor:not-allowed">⬡</button>
+    <button class="sidebar-btn" title="Rapports" style="opacity:.4;cursor:not-allowed">◧</button>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-sep"></div>
+    <button class="sidebar-btn" title="Paramètres" style="font-size:14px">⚙</button>
+    <button class="sidebar-btn" title="Déconnexion" onclick="location.href='index.html'" style="font-size:12px">⏻</button>
+  </nav>
+
+  <!-- ═══ MAIN ═════════════════════════════════════════════════════════════ -->
+  <main id="main">
+
+    <!-- Graph Toolbar -->
+    <div id="graph-toolbar">
+      <button class="btn-tool" id="btn-fit" title="Ajuster la vue (F)">⊡ Ajuster</button>
+      <button class="btn-tool" id="btn-zoom-in">＋</button>
+      <button class="btn-tool" id="btn-zoom-out">－</button>
+      <button class="btn-tool active" id="btn-sim">⏸ Pause</button>
+      <div class="toolbar-sep"></div>
+      <span style="font-size:11px;color:var(--text3)">Filtres :</span>
+      <div class="filter-chips">
+        <button class="filter-chip active" data-type="PERSON">PERSONNE</button>
+        <button class="filter-chip active" data-type="ORG">ORG.</button>
+        <button class="filter-chip active" data-type="LOCATION">LIEU</button>
+        <button class="filter-chip active" data-type="EVENT">ÉVÉNEMENT</button>
+        <button class="filter-chip active" data-type="DOCUMENT">DOCUMENT</button>
+      </div>
+      <div class="toolbar-info">
+        Clic: sélectionner &nbsp;·&nbsp; Dbl-clic: zoomer &nbsp;·&nbsp; Clic droit: menu &nbsp;·&nbsp; Molette: zoom &nbsp;·&nbsp; G/O/T: vues
+      </div>
+    </div>
+
+    <!-- ── GRAPH VIEW ─────────────────────────────────────────── -->
+    <div id="view-graph" class="view-panel active">
+      <canvas id="graph-canvas"></canvas>
+
+      <!-- Alerts overlay -->
+      <div id="alerts-panel">
+        <div class="alerts-header">
+          <span>⚠ Alertes</span>
+          <span class="alert-count">5</span>
+        </div>
+        <div id="alerts-list"></div>
+      </div>
+
+      <!-- Entity detail panel -->
+      <div id="detail-panel">
+        <div class="detail-header">
+          <div class="detail-icon-wrap">
+            <span id="detail-icon">?</span>
+          </div>
+          <div class="detail-title">
+            <div id="detail-type" class="detail-type-badge">TYPE</div>
+            <div id="detail-name">—</div>
+          </div>
+          <button id="close-detail" title="Fermer">✕</button>
+        </div>
+        <div class="detail-body">
+          <div class="detail-section">
+            <div class="detail-section-title">Propriétés</div>
+            <table class="props-table" id="detail-props"></table>
+          </div>
+          <div class="detail-section">
+            <div class="detail-section-title">Connexions</div>
+            <div id="detail-connections"></div>
+          </div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn-primary">+ Ajouter note</button>
+          <button class="btn-sm">Signaler</button>
+          <button class="btn-sm">Exporter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── OBJECTS VIEW ───────────────────────────────────────── -->
+    <div id="view-objects" class="view-panel">
+      <div class="objects-header">
+        <h2>Navigateur d'objets</h2>
+        <span class="count-badge" id="obj-count">20 objets</span>
+        <input id="objects-filter" type="text" placeholder="Filtrer les objets...">
+      </div>
+      <div class="objects-table-wrap">
+        <table class="objects-table">
+          <thead>
+            <tr>
+              <th style="width:16px"></th>
+              <th>Type</th>
+              <th>Nom</th>
+              <th>Valeur principale</th>
+              <th>Risque</th>
+              <th style="width:60px"></th>
+            </tr>
+          </thead>
+          <tbody id="objects-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Detail panel reused in objects view too -->
+      <div id="detail-panel-obj" style="display:none"></div>
+    </div>
+
+    <!-- ── TIMELINE VIEW ──────────────────────────────────────── -->
+    <div id="view-timeline" class="view-panel">
+      <div class="timeline-header">
+        <h2>◫ Chronologie des événements</h2>
+        <span class="count-badge">4 événements</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text3)">
+          Jan 2026 → Mar 2026
+        </span>
+      </div>
+
+      <div style="padding:20px 30px;overflow:auto;flex:1">
+        <div class="timeline-canvas">
+          <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);margin-bottom:8px">
+            Jan. 2026 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mar. 2026
+          </div>
+          <div class="timeline-axis"></div>
+          <div class="tl-events-container">
+            <div id="timeline-events"></div>
+          </div>
+        </div>
+
+        <!-- Detailed event list -->
+        <div style="margin-top:40px">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">
+            Détail des événements
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+            <!-- Generated by JS -->
+            <div id="event-cards-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══ STATUS BAR ═══════════════════════════════════════════════════════ -->
+  <footer id="statusbar">
+    <div class="status-item">
+      <div class="status-dot"></div>
+      <span>CONNECTÉ</span>
+    </div>
+    <div class="status-item">Enquête : <strong style="color:var(--text2);margin-left:4px" id="inv-name-status">Opération Phénix</strong></div>
+    <div class="status-item">Objets : <span id="status-nodes">—</span></div>
+    <div class="status-item">Liens : <span id="status-edges">—</span></div>
+    <div class="status-item" style="margin-left:auto">
+      <span id="status-time">—</span>
+    </div>
+    <div class="status-item">
+      v2.6.1 · GOTHAM Intelligence Platform
+    </div>
+  </footer>
+
+</div>
+
+<!-- Context Menu -->
+<div id="context-menu">
+  <div class="ctx-item" id="ctx-focus"><span class="ctx-icon">◎</span> Centrer la vue</div>
+  <div class="ctx-item" id="ctx-detail"><span class="ctx-icon">◧</span> Voir les détails</div>
+  <div class="ctx-item" id="ctx-expand"><span class="ctx-icon">◈</span> Expanser les voisins</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctx-flag"><span class="ctx-icon">⚑</span> Signaler l'entité</div>
+  <div class="ctx-item" id="ctx-export"><span class="ctx-icon">↗</span> Exporter</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="close-ctx" style="color:var(--text3)"><span class="ctx-icon">✕</span> Fermer</div>
+</div>
+
+<script src="assets/js/gotham-data.js"></script>
+<script src="assets/js/gotham-graph.js"></script>
+<script src="assets/js/gotham-app.js"></script>
+
+<script>
+  // Populate event cards
+  window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('event-cards-container');
+    if (!container) return;
+    const events = GOTHAM_DATA.nodes.filter(n => n.type === 'EVENT');
+    container.style.cssText = 'display:contents';
+    events.forEach(n => {
+      const cfg = NODE_COLORS[n.type];
+      const card = document.createElement('div');
+      card.style.cssText = `background:var(--bg2);border:1px solid var(--border2);border-left:3px solid ${cfg.stroke};border-radius:8px;padding:14px;cursor:pointer`;
+      card.innerHTML = `
+        <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);margin-bottom:6px">${n.props.Date || ''}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${n.label}</div>
+        ${Object.entries(n.props).slice(1).map(([k,v]) =>
+          `<div style="font-size:11px;color:var(--text2);margin-bottom:3px"><span style="color:var(--text3)">${k} :</span> ${v}</div>`
+        ).join('')}
+        <div style="margin-top:10px">
+          <button class="btn-sm" onclick="App.focusEntity('${n.id}')">Voir dans le graphe</button>
+        </div>`;
+      card.addEventListener('click', e => { if (e.target.tagName !== 'BUTTON') App.focusEntity(n.id); });
+      container.parentNode.appendChild(card);
+    });
+    container.remove();
+  });
+</script>
+</body>
+</html>
